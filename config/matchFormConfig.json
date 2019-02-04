@@ -1,0 +1,24 @@
+{
+   "game":"2019 Deep Space",
+   "timestamp":"2019-01-26",
+   "groups":[
+      {
+         "group_id":"sandstorm",
+         "group_label":"Sandstorm Period",
+         "fields":[
+            {
+               "id":"hatch_lv3_num",
+               "label":"Hatch Panel Lv3 Num",
+               "notes":"Select the starting position, and then select the final position. If you mis-tapped, tap on the bad square to deselect.",
+               "inputType":"num"
+            },
+            {
+               "id":"hatch_lv3_time",
+               "label":"Hatch Panel Lv3 Time",
+               "notes":"",
+               "inputType":"num"
+            }
+         ]
+      }
+   ]
+}

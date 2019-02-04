@@ -1,0 +1,164 @@
+{
+    "610": {
+        "hatch_lv3": {
+            "num": {
+                "avg":2.000,
+                "std":0.000
+            },
+            "time":{
+                "avg":6.756,
+                "time":0.458
+            }
+        },
+        "hatch_lv2": {
+            "num": {
+                "avg":2.000,
+                "std":0.000
+            },
+            "time": {
+                "avg":6.551,
+                "std":0.284
+            }
+        },
+        "hatch_lv1": {
+            "num": {
+                "avg":2.667,
+                "std":0.471
+            },
+            "time": {
+                "avg":3.982,
+                "std":0.161
+            }
+        },
+        "hatch_lvS": {
+            "num": {
+                "avg":4.333,
+                "std":1.247
+            },
+            "time": {
+                "avg":4.088,
+                "std":0.321
+            }
+        },
+        "hatch_lvT": {
+            "num": {
+                "avg":11.000,
+                "std":0.816
+            },
+            "time": {
+                "avg":4.995,
+                "std":1.295
+            }
+        },
+        "cargo_lv3": {
+            "num": {
+                "avg":1.667,
+                "std":0.471
+            },
+            "time":{
+                "avg":7.013,
+                "time":0.408
+            }
+        },
+        "cargo_lv2": {
+            "num": {
+                "avg":1.667,
+                "std":0.471
+            },
+            "time": {
+                "avg":7.087,
+                "std":0.195
+            }
+        },
+        "cargo_lv1": {
+            "num": {
+                "avg":2.000,
+                "std":0.816
+            },
+            "time": {
+                "avg":6.888,
+                "std":0.406
+            }
+        },
+        "cargo_lvS": {
+            "num": {
+                "avg":4.000,
+                "std":0.816
+            },
+            "time": {
+                "avg":6.932,
+                "std":0.397
+            }
+        },
+        "cargo_lvT": {
+            "num": {
+                "avg":9.333,
+                "std":0.471
+            },
+            "time": {
+                "avg":6.965,
+                "std":0.380
+            }
+        },
+        "climb_self": {
+            "lvl": {
+                "avg":3.000,
+                "std":0.000
+            },
+            "time": {
+                "avg":20.635,
+                "std":1.935
+            }
+        },
+        "climb_lift": {
+            "lvl": {
+                "avg":0.000,
+                "std":0.000
+            },
+            "time": {
+                "avg":0.000,
+                "std":0.000
+            }
+        },
+        "robot_preload": {
+            "hatch": {
+                "avg":1.000,
+                "std":0.000
+            },
+            "cargo": {
+                "avg":0.000,
+                "std":0.000
+            }
+        },
+        "ship_preload": {
+            "hatch": {
+                "avg":1.000,
+                "std":0.000
+            },
+            "cargo": {
+                "avg":1.000,
+                "std":0.000
+            }
+        },
+        "start_lvl": {
+            "val": {
+                "avg":2.000,
+                "std":0.000
+            }
+        },
+        "defense": {
+            "total": {
+                "sum":14.893,
+                "num_matches":1
+            },
+            "goalkeep": {
+                "sum":14.893,
+                "num_matches":1
+            },
+            "pinning":{
+                "sum":0.000,
+                "num_matches":0
+            }
+        }
+    }
+}

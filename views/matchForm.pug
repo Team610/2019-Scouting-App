@@ -1,0 +1,24 @@
+extends layout
+
+include ./matchFormElements/num
+
+block content
+    h1= title
+    form(method="post" action="/matchForm" id="form")
+        p
+            strong matchNum
+            input(type="number" name="matchNum" value=1)
+        p
+            strong teamNum
+            select(name="teamNum")
+                each team in teamList
+                    option(value=team.low)= team.low
+        each section in matchFormConfig["groups"]
+            h2= section["group_label"]
+            each field in section["fields"]
+                p
+                    strong=field["label"]
+                case field["inputType"]
+                    when "num"
+                            +num(field["id"], field["label"])
+        input(style="float: right" type="submit")
