@@ -195,7 +195,7 @@
             "operators":[
                 {"func":"count_by_type"}
             ],
-            "metrics":["robot_preloads"]
+            "metrics":["robot_preload"]
         },
         {
             "name":"tot_lvl2_starts",

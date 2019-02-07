@@ -30,9 +30,11 @@ exports.queryDB = async function (queryName, queryParams) {
         'getFormsForTeam':{'query':'MATCH (t:Team) WHERE t.num=toInteger($teamNum) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form) RETURN f'},
         'getFormMetricsForTeam':{'query':'MATCH (t:Team) WHERE t.num=toInteger($teamNum) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form)-[:Do]->(m:Metric) WHERE f.eventId=$event RETURN m, f.matchNum', 'mapper':teamMetricMapper} //TODO: Figure out how to make this query work with replays
     };
+    let neoSession = neoDriver.session();
     let result = await neoSession.run(queries[queryName]['query'], queryParams);
     if(queries[queryName]['mapper']!=undefined) {
         result = queries[queryName]['mapper'](result);
     }
+    neoSession.close();
     return result;
 }
