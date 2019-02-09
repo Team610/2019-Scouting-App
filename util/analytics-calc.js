@@ -4,7 +4,7 @@ let dbUtils = require('../neo4j/dbUtils');
 let logger = require('./logger');
 
 exports.calculateForTeam = async (teamNum) => {
-    logger.debug("calc analytics");
+    logger.debug(`calculating analytics for team ${teamNum}`);
     let neoSession = dbUtils.getSession();
 
     try {
@@ -22,7 +22,6 @@ exports.calculateForTeam = async (teamNum) => {
             }
 
             // console.log(`raw data: ${data}, typeof: ${typeof data}`);
-
             if(config.operators[0].func == 'by_instance') {
                 data = by_instance(data);
             } else if (config.operators[0].func == 'by_match') {
@@ -53,10 +52,10 @@ exports.calculateForTeam = async (teamNum) => {
         queryString += " RETURN t";
         // console.log(queryString);
         await neoSession.run(queryString, {teamNum:teamNum, event:'2018onosh'});
-        logger.debug("successfully calculated");
+        logger.debug(`successfully calculated for team ${teamNum}`);
     } catch (err) {
         logger.debug(err.message);
-        logger.debug('Failed to calculate'); //TODO: if the function fails, need to throw exception and handle error code
+        logger.debug(`Failed to calculate for team ${teamNum}`); //TODO: if the function fails, need to throw exception and handle error code
     }
 	dbUtils.endTransaction(neoSession);
 }

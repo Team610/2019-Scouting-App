@@ -5,22 +5,21 @@ let router = require('express').Router();
 const dbUtils = require('../neo4j/dbUtils');
 const logger = require("../util/logger");
 const fields = require('../config/formConfig.json').form_db_interface;
+const appConfig = require("../config/appConfig");
 
 router.get('/', async function(req, res, next) {
 	logger.debug("Getting match form");
-	let neoSession = dbUtils.getSession();
-	let result = await neoSession.run("MATCH (e:Event)-[:Schedules]->(q:Qual) WHERE q.matchNum=1 RETURN q.teams");
-	let teams = result.records[0].get(0);
-	dbUtils.endTransaction(neoSession);
+	let teams = await dbUtils.queryDB('getQualTeams',{eventId:appConfig.curEvent,matchNum:1}); //TODO: get matchNum dynamically
 	res.render('matchForm', { title: 'Match Form', teamList: teams, matchFormConfig: matchFormConfig });
 });
 
 router.post('/', async function(req, res, next) {
+	//TODO: move this stuff to a non-router file
 	let neoSession = dbUtils.getSession();
 	logger.debug('saving match '+parseInt(req.body.matchNum));
 
 	//Mock data
-	let curEvent = "2018onosh";
+	let curEvent = appConfig.curEvent;
 	let data = {
 		"cycle_cargo_lv1": [10.566, 8.03],
 		"cycle_cargo_lv2": [1.44],
