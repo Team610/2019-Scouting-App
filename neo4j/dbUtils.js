@@ -61,6 +61,10 @@ let teamAggStatMapper = (result) => {
 	return obj;
 }
 
+let eventMapper = (result) => {
+	return result.records[0].get(0).properties;
+}
+
 exports.queryDB = async function (queryName, queryParams) {
     const queries = {
 		'getTeam': {'query':'MATCH (t:Team{num:toInteger($teamNum)}) RETURN team'},
@@ -69,7 +73,8 @@ exports.queryDB = async function (queryName, queryParams) {
         'getQualTeams': {'query':'MATCH (e:Event{id:$eventId})-[:Schedules]->(q:Qual{matchNum:$matchNum}) RETURN q.teams', 'mapper':qualTeamMapper},
         'getFormsForTeam':{'query':'MATCH (t:Team{num:toInteger($teamNum)}) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form) RETURN f'},
 		'getFormMetricsForTeam':{'query':'MATCH (t:Team{num:toInteger($teamNum)})-[:Plays{active:true}]->(f:Form{eventId:$eventId})-[:Do]->(m:Metric) RETURN m, f.matchNum', 'mapper':teamMetricMapper}, //TODO: Figure out how to make this query work with replays
-		'createEventMatches':{}
+		'createEventMatches':{'query':'MERGE (e:Event{id:$eventId}) WITH e FOREACH (m in $list| MERGE (e)-[:Schedules]->(:Qual{matchNum:m.num, teams:m.teams})) RETURN e', 'mapper':eventMapper},
+		'createEventTeams':{'query':'MERGE (e:Event{id:$eventId}) WITH e FOREACH (t in $list| MERGE (:Team{num:toInteger(t)})-[:Performs]->(:Aggregate{event:$eventId})) RETURN e', 'mapper':eventMapper}
     };
     let neoSession = neoDriver.session();
     let result = await neoSession.run(queries[queryName]['query'], queryParams);

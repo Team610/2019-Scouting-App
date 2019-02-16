@@ -10,20 +10,20 @@ exports.calculateForTeam = async (teamNum) => {
 
     try {
 		const formData = await dbUtils.queryDB('getFormMetricsForTeam', {teamNum:teamNum, eventId:appConfig.curEvent});
-		console.log(formData);
-        let queryString = "MATCH (t:Team{num:$teamNum})-[:Performs]->(a:Aggregate{event:$event})";
+		// console.log(formData);
+        let queryString = "MATCH (t:Team{num:toInteger($teamNum)})-[:Performs]->(a:Aggregate{event:$event})";
         for (let config of configs) {
-            console.log("trying "+config.name);
+            // console.log("trying "+config.name);
             let data = [];
             let dataQuery = "";
             for (let metric of config.metrics) {
                 for (let key of Object.keys(formData)) {
-                    console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
+                    // console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
                     data.push(formData[key][metric]);
                 }
             }
 
-            console.log(`raw data: ${JSON.stringify(data)}, typeof: ${typeof data}`);
+            // console.log(`raw data: ${JSON.stringify(data)}, typeof: ${typeof data}`);
             if(config.operators[0].func == 'by_instance') {
                 data = by_instance(data);
             } else if (config.operators[0].func == 'by_match') {
@@ -55,9 +55,10 @@ exports.calculateForTeam = async (teamNum) => {
             queryString += " WITH t, a "+dataQuery;
         }
         queryString += " RETURN t";
-        // console.log(queryString);
-        await neoSession.run(queryString, {teamNum:teamNum, event:appConfig.curEvent});
-        logger.debug(`successfully calculated for team ${teamNum}`);
+		// console.log(queryString);
+		// console.log(`teamNum: ${teamNum}, event: ${appConfig.curEvent}`)
+        let team = await neoSession.run(queryString, {teamNum:teamNum, event:appConfig.curEvent});
+        logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
     } catch (err) {
         logger.debug(err.message);
         logger.debug(`Failed to calculate for team ${teamNum}`); //TODO: if the function fails, need to throw exception and handle error code
