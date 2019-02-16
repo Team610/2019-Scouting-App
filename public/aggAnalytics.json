@@ -108,7 +108,31 @@
             "time": {
                 "avg":20.635,
                 "std":1.935
-            }
+			},
+			"lvl_3_num":{
+				"avg":3.000,
+                "std":0.000
+			},
+			"lvl_3_time":{
+				"avg":20.635,
+				"std":1.935
+			},
+			"lvl_2_num":{
+				"avg":0.000,
+				"std":0.000
+			},
+			"lvl_2_time":{
+				"avg":0.000,
+				"std":0.000
+			},
+			"lvl_1_num":{
+				"avg":0.000,
+				"std":0.000
+			},
+			"lvl_1_time":{
+				"avg":0.000,
+				"std":0.000
+			}
         },
         "climb_lift": {
             "lvl": {
@@ -151,14 +175,26 @@
                 "sum":14.893,
                 "num_matches":1
             },
-            "goalkeep": {
+            "ship_goalkeep": {
                 "sum":14.893,
                 "num_matches":1
-            },
+			},
+			"rocket_goalkeep":{
+				"sum":0,
+                "num_matches":0
+			},
             "pinning":{
                 "sum":0.000,
                 "num_matches":0
-            }
+			},
+			"tough_defense":{
+				"sum":0.000,
+                "num_matches":0
+			},
+			"driving_around":{
+				"sum":0.000,
+                "num_matches":0
+			}
         }
     }
 }

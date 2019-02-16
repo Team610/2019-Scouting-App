@@ -180,9 +180,72 @@
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv2"],
-            "comment":"CYCLES HAVE STOPPED HERE"
+            "metrics":["hatch_lv2"]
         },
+        {
+            "name":"avg_time_hatch_lv3",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["hatch_lv3"]
+		},
+        {
+            "name":"avg_time_hatch_lvS",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["hatch_lvS"]
+		},
+		{
+            "name":"avg_time_cargo_lv1",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["cargo_lv1"]
+        },
+        {
+            "name":"avg_time_cargo_lv2",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["cargo_lv2"]
+        },
+        {
+            "name":"avg_time_cargo_lv3",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["cargo_lv3"]
+        },
+        {
+            "name":"avg_time_cargo_lvS",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["cargo_lvS"]
+        },
+        {
+            "name":"avg_time_cargo_tot",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["cargo_lv1","cargo_lv2","cargo_lvS","cargo_lv3"]
+		},
+        {
+            "name":"avg_time_hatch_tot",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["hatch_lv1","hatch_lv2","hatch_lvS","hatch_lv3"]
+		},
         {
             "name":"tot_ship_preload",
             "operators":[
@@ -219,6 +282,77 @@
                 {"func":"sum"}
             ],
             "metrics":["def_rocket_goalkeep"]
-        }
+        },
+        {
+            "name":"tot_time_def_ship_goalkeep",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"sum"}
+            ],
+            "metrics":["def_ship_goalkeep"]
+        },
+        {
+            "name":"tot_time_def_driving_around",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"sum"}
+            ],
+            "metrics":["def_driving_around"]
+        },
+        {
+            "name":"tot_time_def_pinning",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"sum"}
+            ],
+            "metrics":["def_pinning"]
+        },
+        {
+            "name":"tot_time_def_tough_defense",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"sum"}
+            ],
+            "metrics":["def_tough_defense"]
+		},
+		{
+			"name":"tot_num_climb_lvl",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["climb_lvl"]
+		},
+		{
+			"name":"avg_time_climb_tot",
+			"operators":[
+				{"func":"by_instance"},
+				{"func":"avg"}
+			],
+			"metrics":["climb_time"]
+		},
+		{
+			"name":"avg_time_climb_lv1",
+			"operators":[
+				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"1"}},
+				{"func":"avg"}
+			],
+			"metrics":["climb_time"]
+		},
+		{
+			"name":"avg_time_climb_lv2",
+			"operators":[
+				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"2"}},
+				{"func":"avg"}
+			],
+			"metrics":["climb_time"]
+		},
+		{
+			"name":"avg_time_climb_lv3",
+			"operators":[
+				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"3"}},
+				{"func":"avg"}
+			],
+			"metrics":["climb_time"]
+		}
     ]
 }

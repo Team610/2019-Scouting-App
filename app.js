@@ -5,10 +5,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-// var cors = require('cors');
 
 var app = express();
-// app.use(cors());
 var router = express.Router();
 
 // Define logger

@@ -2,26 +2,28 @@
 let configs = require('../config/formConfig').db_analytics_agg;
 let dbUtils = require('../neo4j/dbUtils');
 let logger = require('./logger');
+let appConfig = require('../config/appConfig');
 
 exports.calculateForTeam = async (teamNum) => {
     logger.debug(`calculating analytics for team ${teamNum}`);
     let neoSession = dbUtils.getSession();
 
     try {
-        const formData = await dbUtils.queryDB('getFormMetricsForTeam', {teamNum:teamNum, event:'2018onosh'}); // TODO: dynamically get event
+		const formData = await dbUtils.queryDB('getFormMetricsForTeam', {teamNum:teamNum, eventId:appConfig.curEvent});
+		console.log(formData);
         let queryString = "MATCH (t:Team{num:$teamNum})-[:Performs]->(a:Aggregate{event:$event})";
         for (let config of configs) {
-            // console.log("trying "+config.name);
+            console.log("trying "+config.name);
             let data = [];
             let dataQuery = "";
             for (let metric of config.metrics) {
                 for (let key of Object.keys(formData)) {
-                    // console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
+                    console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
                     data.push(formData[key][metric]);
                 }
             }
 
-            // console.log(`raw data: ${data}, typeof: ${typeof data}`);
+            console.log(`raw data: ${JSON.stringify(data)}, typeof: ${typeof data}`);
             if(config.operators[0].func == 'by_instance') {
                 data = by_instance(data);
             } else if (config.operators[0].func == 'by_match') {
@@ -29,11 +31,14 @@ exports.calculateForTeam = async (teamNum) => {
             } else if (config.operators[0].func == 'count_by_type') {
                 data = count_by_type(data);
                 dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) `+
-                    `SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], s.values=[${Object.values(data).map(x => "'"+x+"'").toString()}]`;
+					`SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], `+
+					`s.values=[${Object.values(data).map(x => "'"+x+"'").toString()}]`;
                 queryString += " WITH t, a "+dataQuery;
                 // console.log(`processed data: ${JSON.stringify(data)}, typeof: ${typeof data}\n`);
                 continue;
-            } else {
+			} else if (config.operators[0].func == 'cond') {
+
+		 	} else {
                 throw {message:"config incorrectly set up"};
             }
 
@@ -51,7 +56,7 @@ exports.calculateForTeam = async (teamNum) => {
         }
         queryString += " RETURN t";
         // console.log(queryString);
-        await neoSession.run(queryString, {teamNum:teamNum, event:'2018onosh'});
+        await neoSession.run(queryString, {teamNum:teamNum, event:appConfig.curEvent});
         logger.debug(`successfully calculated for team ${teamNum}`);
     } catch (err) {
         logger.debug(err.message);
@@ -96,7 +101,10 @@ let func_count = function(list) {
 
 let func_avg = function(list) {
     // console.log("avg");
-    // console.log("input: "+list);
+	// console.log("input: "+list);
+	if (list.length==0) {
+		return 0;
+	}
     let sum=0;
     for (let i=0; i<list.length; i++) {
         sum+=list[i];
