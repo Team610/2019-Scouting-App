@@ -13,6 +13,7 @@ exports.createEvent = async (eventCode) => {
 		},
 		json: true
 	});
+	matchList[list]=[];
 	for (let i=0; i<matchList.length; i++) {
 		if(matchList[i].comp_level != 'qm') {
 			continue;
@@ -24,12 +25,12 @@ exports.createEvent = async (eventCode) => {
 			blue[j] = blue[j].substring(3);
 			red[j] = red[j].substring(3);
 		}
-		matchList[i] = {
+		matchList[list][i] = {
 			num: matchNum,
 			teams: [red[0], red[1], red[2], blue[0], blue[1], blue[2]]
 		}
 	}
-	matchList['event'] = eventCode;
+	matchList['eventId'] = eventCode;
     // let matchRes = await dbUtils.queryDB('createEventMatches', matchList);
 
     let teamList = await request({
@@ -39,10 +40,11 @@ exports.createEvent = async (eventCode) => {
 		},
 		json: true
 	});
+	teamList[list] = [];
 	for (let i=0; i<teamList.length; i++) {
-		teamList[i] = teamList[i].team_number;
+		teamList[list][i] = teamList[i].team_number;
 	}
-	teamList['event'] = eventCode;
+	teamList['eventId'] = eventCode;
 	// let teamRes = await dbUtils.queryDB('createEventTeams', teamList);
 	console.log(matchList);
 	console.log(teamList);
