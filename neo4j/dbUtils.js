@@ -36,7 +36,8 @@ let teamListMapper = (result) => {
 let qualTeamMapper = (result) => {
     let obj = [];
     for (let i=0; i<result.records[0].get(0).length; i++) {
-        obj[i]=result.records[0].get(0)[i].low;
+        //obj[i]=result.records[0].get(0)[i].low;
+        obj[i]=Number(result.records[0].get(0)[i]);
     }
     return obj;
 }
