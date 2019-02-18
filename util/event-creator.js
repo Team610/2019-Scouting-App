@@ -1,7 +1,7 @@
 "use strict";
 let dbUtils = require('../neo4j/dbUtils');
 const logger = require('./logger');
-const appConfig = require('../config/appConfig.json');
+const analyticsConfig = require('../config/formConfig.json').db_analytics_agg;
 const request = require('request-promise');
 
 exports.createEvent = async (eventCode) => {
@@ -13,7 +13,7 @@ exports.createEvent = async (eventCode) => {
 		},
 		json: true
 	});
-	let matchList = {list:[]};
+	let matchList = {matchList:[]};
 	let count=0;
 	for (let i=0; i<rawMatchList.length; i++) {
 		if(rawMatchList[i].comp_level != 'qm') {
@@ -26,7 +26,7 @@ exports.createEvent = async (eventCode) => {
 			blue[j] = blue[j].substring(3);
 			red[j] = red[j].substring(3);
 		}
-		matchList['list'][count] = {
+		matchList['matchList'][count] = {
 			num: matchNum,
 			teams: [red[0], red[1], red[2], blue[0], blue[1], blue[2]]
 		}
@@ -43,12 +43,19 @@ exports.createEvent = async (eventCode) => {
 		},
 		json: true
 	});
-	let teamList = {list:[]};
+	let teamList = {teamList:[]};
 	for (let i=0; i<rawTeamList.length; i++) {
-		teamList['list'][i] = rawTeamList[i].team_number;
+		teamList['teamList'][i] = rawTeamList[i].team_number;
 	}
 	teamList['eventId'] = eventCode;
 	let teamRes = await dbUtils.queryDB('createEventTeams', teamList);
 	logger.debug(`created teams for ${teamRes.id}`);
-	//TODO: add the code for adding the Statistic nodes to the Aggregate
+	
+	let analyticsList = teamList;
+	analyticsList['statList'] = [];
+	for (let config of analyticsConfig) {
+		analyticsList['statList'].push(config.name);
+	}
+	let analyticsRes = await dbUtils.queryDB('createEventTeamAnalytics', analyticsList);
+	logger.debug(`created team analytic nodes for ${analyticsRes.id}`);
 }

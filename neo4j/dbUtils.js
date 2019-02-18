@@ -74,9 +74,29 @@ exports.queryDB = async function (queryName, queryParams) {
         'getQualTeams': {'query':'MATCH (e:Event{id:$eventId})-[:Schedules]->(q:Qual{matchNum:$matchNum}) RETURN q.teams', 'mapper':qualTeamMapper},
         'getFormsForTeam':{'query':'MATCH (t:Team{num:toInteger($teamNum)}) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form) RETURN f'},
 		'getFormMetricsForTeam':{'query':'MATCH (t:Team{num:toInteger($teamNum)})-[:Plays{active:true}]->(f:Form{eventId:$eventId})-[:Do]->(m:Metric) RETURN m, f.matchNum', 'mapper':teamMetricMapper}, //TODO: Figure out how to make this query work with replays
-		'createEventMatches':{'query':'MERGE (e:Event{id:$eventId}) WITH e FOREACH (m in $list| MERGE (e)-[:Schedules]->(:Qual{matchNum:m.num, teams:m.teams})) RETURN e', 'mapper':eventMapper},
-		'createEventTeams':{'query':'MERGE (e:Event{id:$eventId}) WITH e FOREACH (t in $list| MERGE (:Team{num:toInteger(t)})-[:Performs]->(:Aggregate{event:$eventId})) RETURN e', 'mapper':eventMapper}
-    };
+		'createEventMatches':
+			{'query':'MERGE (e:Event{id:$eventId}) \
+				WITH e UNWIND $matchList AS q \
+				MERGE (e)-[:Schedules]->(:Qual{matchNum:q.num, teams:q.teams}) \
+				RETURN e',
+			'mapper':eventMapper},
+		'createEventTeams':
+			{'query':'MERGE (e:Event{id:$eventId}) \
+				WITH e UNWIND $teamList AS tNum \
+				MERGE (t:Team{num:toInteger(tNum)}) \
+				RETURN e',
+			'mapper':eventMapper},
+		'createEventTeamAnalytics':
+			{'query':'MERGE (e:Event{event:$eventId}) \
+				WITH e UNWIND $teamList AS tNum \
+				MERGE (t:Team{num:toInteger(tNum)}) \
+				WITH e, t MERGE (t)-[:Performs]->(a:Aggregate{event:$eventId}) \
+				WITH e, a UNWIND $statList AS statName \
+				MERGE (a)-[:Specify]->(s:Statistic{name:statName}) \
+				WITH e, s SET s.values=\"N/A\" \
+				RETURN e',
+			'mapper': eventMapper}
+	};
     let neoSession = neoDriver.session();
     let result = await neoSession.run(queries[queryName]['query'], queryParams);
     if(queries[queryName]['mapper']!=undefined) {
