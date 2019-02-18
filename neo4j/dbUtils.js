@@ -87,7 +87,7 @@ exports.queryDB = async function (queryName, queryParams) {
 				RETURN e',
 			'mapper':eventMapper},
 		'createEventTeamAnalytics':
-			{'query':'MERGE (e:Event{event:$eventId}) \
+			{'query':'MERGE (e:Event{id:$eventId}) \
 				WITH e UNWIND $teamList AS tNum \
 				MERGE (t:Team{num:toInteger(tNum)}) \
 				WITH e, t MERGE (t)-[:Performs]->(a:Aggregate{event:$eventId}) \
