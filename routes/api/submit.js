@@ -6,12 +6,19 @@ const logger = require("../../util/logger"); //TODO: make this path more absolut
 const querier = require('../../util/submit-match');
 
 router.post('/', async function (req, res, next) {
-    // logger.debug(`Submitting form for team ${req.body.teamNum}, match ${req.body.matchNum}`);
-    logger.debug(`Incoming form ${JSON.stringify(req.body)}`);
-    await querier.submitMatch(req.body);
-    res.json({
-        success: true
-    });
+	try {
+		logger.debug(`Incoming form ${JSON.stringify(req.body)}`);
+		await querier.submitMatch(req.body);
+		res.json({
+			success: true
+		});
+	} catch (err) {
+		logger.debug(`Unable to submit form`);
+		logger.debug(err.message);
+		res.json({
+			success: false
+		})
+	}
 });
 
 module.exports = router;
