@@ -4,5 +4,5 @@ block content
     h1= title
     form(method="post" action="/createEvent" id="form")
         p Input event code
-        textarea(name="eventCode")
+        input(type="text" name="eventCode" required)
         input(style="float: right" type="submit")
