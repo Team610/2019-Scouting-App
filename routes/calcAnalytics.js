@@ -16,7 +16,7 @@ router.get('/', async function(req, res, next) {
         logger.debug(err.message);
         logger.debug("could not calculate analytics");
     }
-    res.redirect('/');
+    res.redirect('/admin');
 });
 
 router.get('/:team_id', async function (req, res, next) {
@@ -27,7 +27,7 @@ router.get('/:team_id', async function (req, res, next) {
         logger.debug(err.message);
         logger.debug("could not calculate analytics");
     }
-    res.redirect('/');
+    res.redirect('/admin');
 });
 
 module.exports = router;

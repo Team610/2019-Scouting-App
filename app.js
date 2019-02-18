@@ -39,17 +39,14 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 let indexViewCtrl = require('./routes/index');
-let matchFormViewCtrl = require('./routes/matchForm');
 let calcAnalyticsCtrl = require('./routes/calcAnalytics');
-// var dispAnalyticsCtrl = require('./routes/dispAnalytics'); TODO: remove this file completely
 let apiCtrl = require('./routes/api');
 let createEventCtrl = require('./routes/createEvent');
 
 app.use('/admin', indexViewCtrl);
-app.use('/matchForm', matchFormViewCtrl);
 app.use('/calcAnalytics', calcAnalyticsCtrl);
-// app.use('/dispAnalytics', dispAnalyticsCtrl);
-
+app.use('/api', apiCtrl);
+app.use('/createEvent', createEventCtrl);
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static('public'));
@@ -72,16 +69,10 @@ else {
     })
 }
 
-
-app.use('/api', apiCtrl);
-app.use('/createEvent', createEventCtrl);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
 	next(createError(404));
 });
-
-
 
 // error handler
 app.use(function(err, req, res, next) {

@@ -14,7 +14,7 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     let eventCode = req.body.eventCode;
     querier.createEvent(eventCode);
-    res.redirect('/');
+    res.redirect('/admin');
 });
 
 module.exports = router;
