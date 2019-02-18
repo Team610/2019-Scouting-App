@@ -10,6 +10,7 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', function (req, res, next) {
+	console.log(`creating event ${req.body.eventCode}`);
     let eventCode = req.body.eventCode;
     querier.createEvent(eventCode);
     res.redirect('/admin');
