@@ -15,30 +15,40 @@ exports.calculateForTeam = async (teamNum) => {
         for (let config of configs) {
             // console.log("trying "+config.name);
             let data = [];
-            let dataQuery = "";
-            for (let metric of config.metrics) {
-                for (let key of Object.keys(formData)) {
-                    // console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
-                    data.push(formData[key][metric]);
-                }
-            }
+			let dataQuery = "";
+			if(config.operators[0].type === 'cond') {
+				for(let matchNum of Object.keys(formData)) {
+					let condKey = Object.keys(config.operators[0].cond)[0];
+					let condVal = Object.values(config.operators[0].cond)[0];
+					if(formData[matchNum][condKey] === condVal) {
+						for(let metric of config.metrics) {
+							data.push(formData[matchNum][metric]);
+						}
+					}
+				}
+			} else {
+				for (let metric of config.metrics) {
+					for (let matchNum of Object.keys(formData)) {
+						// console.log(`metric: ${metric}\tkey: ${key}\tformData[key][metric]: ${JSON.stringify(formData[key][metric])}`);
+						data.push(formData[matchNum][metric]);
+					}
+				}
+			}
 
             // console.log(`raw data: ${JSON.stringify(data)}, typeof: ${typeof data}`);
-            if(config.operators[0].func == 'by_instance') {
+            if(config.operators[0].func === 'by_instance') {
                 data = by_instance(data);
-            } else if (config.operators[0].func == 'by_match') {
+            } else if (config.operators[0].func === 'by_match') {
                 data = by_match(data, config.operators[0].params[0]);
-            } else if (config.operators[0].func == 'count_by_type') {
+            } else if (config.operators[0].func === 'count_by_type') {
                 data = count_by_type(data);
                 dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) `+
-					`SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], `+
+					`SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], ` +
 					`s.values=[${Object.values(data).map(x => "'"+x+"'").toString()}]`;
                 queryString += " WITH t, a "+dataQuery;
                 // console.log(`processed data: ${JSON.stringify(data)}, typeof: ${typeof data}\n`);
                 continue;
-			} else if (config.operators[0].func == 'cond') {
-
-		 	} else {
+			} else {
                 throw {message:"config incorrectly set up"};
             }
 
@@ -50,7 +60,7 @@ exports.calculateForTeam = async (teamNum) => {
                 data = func_count(data);
             }
 
-            dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) SET s.value=${JSON.stringify(data)}`;
+            dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) SET s.value=${JSON.stringify(data)} REMOVE s.values`;
             // console.log(`processed data: ${data}, typeof: ${typeof data}\n`);
             queryString += " WITH t, a "+dataQuery;
         }
@@ -60,7 +70,7 @@ exports.calculateForTeam = async (teamNum) => {
         let team = await neoSession.run(queryString, {teamNum:teamNum, event:appConfig.curEvent});
         logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
     } catch (err) {
-        logger.debug(err.message);
+        logger.debug(err.stack);
         logger.debug(`Failed to calculate for team ${teamNum}`); //TODO: if the function fails, need to throw exception and handle error code
     }
 	dbUtils.endTransaction(neoSession);

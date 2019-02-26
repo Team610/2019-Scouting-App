@@ -1,14 +1,14 @@
 "use strict";
-const request = require('request');
 let router = require('express').Router();
-const dbUtils = require('../../neo4j/dbUtils');
 const logger = require("../../util/logger"); //TODO: make this path more absolute
-const querier = require('../../util/submit-match');
+const submitQuerier = require('../../util/submit-match');
+const calcQuerier = require('../../util/analytics-calc');
 
 router.post('/', async function (req, res, next) {
 	try {
 		logger.debug(`Incoming form ${JSON.stringify(req.body)}`);
-		await querier.submitMatch(req.body);
+		await submitQuerier.submitMatch(req.body);
+		await calcQuerier.calculateForTeam(req.body.teamNum);
 		res.json({
 			success: true
 		});

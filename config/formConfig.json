@@ -1,43 +1,83 @@
 {
     "form_db_interface":[
         {
-            "form_field_id":"cycle_hatch_lv1",
-            "db_metric_id":"hatch_lv1",
+            "form_field_id":"to_cycle_hatch_lv1",
+            "db_metric_id":"to_hatch_lv1",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_hatch_lv2",
-            "db_metric_id":"hatch_lv2",
+            "form_field_id":"to_cycle_hatch_lv2",
+            "db_metric_id":"to_hatch_lv2",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_hatch_lv3",
-            "db_metric_id":"hatch_lv3",
+            "form_field_id":"to_cycle_hatch_lv3",
+            "db_metric_id":"to_hatch_lv3",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_hatch_lvS",
-            "db_metric_id":"hatch_lvS",
+            "form_field_id":"to_cycle_hatch_lvS",
+            "db_metric_id":"to_hatch_lvS",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_cargo_lv1",
-            "db_metric_id":"cargo_lv1",
+            "form_field_id":"to_cycle_cargo_lv1",
+            "db_metric_id":"to_cargo_lv1",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_cargo_lv2",
-            "db_metric_id":"cargo_lv2",
+            "form_field_id":"to_cycle_cargo_lv2",
+            "db_metric_id":"to_cargo_lv2",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_cargo_lv3",
-            "db_metric_id":"cargo_lv3",
+            "form_field_id":"to_cycle_cargo_lv3",
+            "db_metric_id":"to_cargo_lv3",
             "type":"number"
         },
         {
-            "form_field_id":"cycle_cargo_lvS",
-            "db_metric_id":"cargo_lvS",
+            "form_field_id":"to_cycle_cargo_lvS",
+            "db_metric_id":"to_cargo_lvS",
+            "type":"number"
+		},
+		{
+            "form_field_id":"ss_cycle_hatch_lv1",
+            "db_metric_id":"ss_hatch_lv1",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_hatch_lv2",
+            "db_metric_id":"ss_hatch_lv2",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_hatch_lv3",
+            "db_metric_id":"ss_hatch_lv3",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_hatch_lvS",
+            "db_metric_id":"ss_hatch_lvS",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_cargo_lv1",
+            "db_metric_id":"ss_cargo_lv1",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_cargo_lv2",
+            "db_metric_id":"ss_cargo_lv2",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_cargo_lv3",
+            "db_metric_id":"ss_cargo_lv3",
+            "type":"number"
+        },
+        {
+            "form_field_id":"ss_cycle_cargo_lvS",
+            "db_metric_id":"ss_cargo_lvS",
             "type":"number"
         },
         {
@@ -81,170 +121,346 @@
             "type":"number"
         },
         {
-            "form_field_id":"comments",
+            "form_field_id":"climb_state",
             "type":"enum"
-        }
+		},
+		{
+			"form_field_id":"robot_dc",
+			"type":"enum"
+		},
+		{
+			"form_field_id":"robot_noshow",
+			"type":"enum"
+		},
+		{
+			"form_field_id":"robot_drop",
+			"type":"enum"
+		},
+		{
+			"form_field_id":"other_comments",
+			"type":"enum"
+		}
     ],
     "db_analytics_agg":[
         {
-            "name":"avg_num_hatch_lv1",
+            "name":"avg_num_to_hatch_lv1",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv1"]
+            "metrics":["to_hatch_lv1"]
         },
         {
-            "name":"avg_num_hatch_lv2",
+            "name":"avg_num_to_hatch_lv2",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv2"]
+            "metrics":["to_hatch_lv2"]
         },
         {
-            "name":"avg_num_hatch_lv3",
+            "name":"avg_num_to_hatch_lv3",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv3"]
+            "metrics":["to_hatch_lv3"]
         },
         {
-            "name":"avg_num_hatch_lvS",
+            "name":"avg_num_to_hatch_lvS",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lvS"]
+            "metrics":["to_hatch_lvS"]
         },
         {
-            "name":"avg_num_hatch_tot",
+            "name":"avg_num_to_hatch_tot",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv1","hatch_lv2","hatch_lv3","hatch_lvS"]
+            "metrics":["to_hatch_lv1","to_hatch_lv2","to_hatch_lv3","to_hatch_lvS"]
         },
         {
-            "name":"avg_num_cargo_lv1",
+            "name":"avg_num_to_cargo_lv1",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv1"]
+            "metrics":["to_cargo_lv1"]
         },
         {
-            "name":"avg_num_cargo_lv2",
+            "name":"avg_num_to_cargo_lv2",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv2"]
+            "metrics":["to_cargo_lv2"]
         },
         {
-            "name":"avg_num_cargo_lv3",
+            "name":"avg_num_to_cargo_lv3",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv3"]
+            "metrics":["to_cargo_lv3"]
         },
         {
-            "name":"avg_num_cargo_lvS",
+            "name":"avg_num_to_cargo_lvS",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lvS"]
+            "metrics":["to_cargo_lvS"]
         },
         {
-            "name":"avg_num_cargo_tot",
+            "name":"avg_num_to_cargo_tot",
             "operators":[
                 {"func":"by_match", "params":["count"]},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv1","cargo_lv2","cargo_lv3","cargo_lvS"]
+            "metrics":["to_cargo_lv1","to_cargo_lv2","to_cargo_lv3","to_cargo_lvS"]
         },
         {
-            "name":"avg_time_hatch_lv1",
+            "name":"avg_time_to_hatch_lv1",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv1"]
+            "metrics":["to_hatch_lv1"]
         },
         {
-            "name":"avg_time_hatch_lv2",
+            "name":"avg_time_to_hatch_lv2",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv2"]
+            "metrics":["to_hatch_lv2"]
         },
         {
-            "name":"avg_time_hatch_lv3",
+            "name":"avg_time_to_hatch_lv3",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv3"]
+            "metrics":["to_hatch_lv3"]
 		},
         {
-            "name":"avg_time_hatch_lvS",
+            "name":"avg_time_to_hatch_lvS",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lvS"]
+            "metrics":["to_hatch_lvS"]
 		},
 		{
-            "name":"avg_time_cargo_lv1",
+            "name":"avg_time_to_cargo_lv1",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv1"]
+            "metrics":["to_cargo_lv1"]
         },
         {
-            "name":"avg_time_cargo_lv2",
+            "name":"avg_time_to_cargo_lv2",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv2"]
+            "metrics":["to_cargo_lv2"]
         },
         {
-            "name":"avg_time_cargo_lv3",
+            "name":"avg_time_to_cargo_lv3",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv3"]
+            "metrics":["to_cargo_lv3"]
         },
         {
-            "name":"avg_time_cargo_lvS",
+            "name":"avg_time_to_cargo_lvS",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lvS"]
+            "metrics":["to_cargo_lvS"]
         },
         {
-            "name":"avg_time_cargo_tot",
+            "name":"avg_time_to_cargo_tot",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["cargo_lv1","cargo_lv2","cargo_lvS","cargo_lv3"]
+            "metrics":["to_cargo_lv1","to_cargo_lv2","to_cargo_lvS","to_cargo_lv3"]
 		},
         {
-            "name":"avg_time_hatch_tot",
+            "name":"avg_time_to_hatch_tot",
             "operators":[
                 {"func":"by_instance"},
                 {"func":"avg"}
             ],
-            "metrics":["hatch_lv1","hatch_lv2","hatch_lvS","hatch_lv3"]
+            "metrics":["to_hatch_lv1","to_hatch_lv2","to_hatch_lvS","to_hatch_lv3"]
+		},
+		{
+            "name":"avg_num_ss_hatch_lv1",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv1"]
+        },
+        {
+            "name":"avg_num_ss_hatch_lv2",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv2"]
+        },
+        {
+            "name":"avg_num_ss_hatch_lv3",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv3"]
+        },
+        {
+            "name":"avg_num_ss_hatch_lvS",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lvS"]
+        },
+        {
+            "name":"avg_num_ss_hatch_tot",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv1","ss_hatch_lv2","ss_hatch_lv3","ss_hatch_lvS"]
+        },
+        {
+            "name":"avg_num_ss_cargo_lv1",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv1"]
+        },
+        {
+            "name":"avg_num_ss_cargo_lv2",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv2"]
+        },
+        {
+            "name":"avg_num_ss_cargo_lv3",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv3"]
+        },
+        {
+            "name":"avg_num_ss_cargo_lvS",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lvS"]
+        },
+        {
+            "name":"avg_num_ss_cargo_tot",
+            "operators":[
+                {"func":"by_match", "params":["count"]},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv1","ss_cargo_lv2","ss_cargo_lv3","ss_cargo_lvS"]
+        },
+        {
+            "name":"avg_time_ss_hatch_lv1",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv1"]
+        },
+        {
+            "name":"avg_time_ss_hatch_lv2",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv2"]
+        },
+        {
+            "name":"avg_time_ss_hatch_lv3",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv3"]
+		},
+        {
+            "name":"avg_time_ss_hatch_lvS",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lvS"]
+		},
+		{
+            "name":"avg_time_ss_cargo_lv1",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv1"]
+        },
+        {
+            "name":"avg_time_ss_cargo_lv2",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv2"]
+        },
+        {
+            "name":"avg_time_ss_cargo_lv3",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv3"]
+        },
+        {
+            "name":"avg_time_ss_cargo_lvS",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lvS"]
+        },
+        {
+            "name":"avg_time_ss_cargo_tot",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_cargo_lv1","ss_cargo_lv2","ss_cargo_lvS","ss_cargo_lv3"]
+		},
+        {
+            "name":"avg_time_ss_hatch_tot",
+            "operators":[
+                {"func":"by_instance"},
+                {"func":"avg"}
+            ],
+            "metrics":["ss_hatch_lv1","ss_hatch_lv2","ss_hatch_lvS","ss_hatch_lv3"]
 		},
         {
             "name":"tot_ship_preload",
@@ -333,7 +549,7 @@
 		{
 			"name":"avg_time_climb_lv1",
 			"operators":[
-				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"1"}},
+				{"type":"cond", "func":"by_instance", "cond":{"climb_lvl":"1"}},
 				{"func":"avg"}
 			],
 			"metrics":["climb_time"]
@@ -341,7 +557,7 @@
 		{
 			"name":"avg_time_climb_lv2",
 			"operators":[
-				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"2"}},
+				{"type":"cond", "func":"by_instance", "cond":{"climb_lvl":"2"}},
 				{"func":"avg"}
 			],
 			"metrics":["climb_time"]
@@ -349,10 +565,45 @@
 		{
 			"name":"avg_time_climb_lv3",
 			"operators":[
-				{"func":"cond", "type":"by_instance", "cond":{"climb_lvl":"3"}},
+				{"type":"cond", "func":"by_instance", "cond":{"climb_lvl":"3"}},
 				{"func":"avg"}
 			],
 			"metrics":["climb_time"]
+		},
+		{
+			"name":"tot_climb_states",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["climb_state"]
+		},
+		{
+			"name":"tot_robot_dc",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["robot_dc"]
+		},
+		{
+			"name":"tot_robot_noshow",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["robot_noshow"]
+		},
+		{
+			"name":"tot_robot_drop",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["robot_drop"]
+		},
+		{
+			"name":"all_other_comments",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["other_comments"]
 		}
     ]
 }
