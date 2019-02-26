@@ -7,7 +7,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
 var app = express();
-var router = express.Router();
 
 // Define logger
 morgan.token('id', function getId(req) {
@@ -31,6 +30,7 @@ app.use(morgan(loggerFormat, {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -38,18 +38,25 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
-let indexViewCtrl = require('./routes/index');
-let calcAnalyticsCtrl = require('./routes/calcAnalytics');
-let apiCtrl = require('./routes/api');
-let createEventCtrl = require('./routes/createEvent');
-
-app.use('/admin', indexViewCtrl);
-app.use('/calcAnalytics', calcAnalyticsCtrl);
-app.use('/api', apiCtrl);
-app.use('/createEvent', createEventCtrl);
-
+//Auth initialization
+app.use(session({
+    secret: 's3cr3t',
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static('public'));
+
+app.use('/admin', require('./routes/index'));
+app.use('/calcAnalytics', require('./routes/calcAnalytics'));
+app.use('/api', require('./routes/api'));
+app.use('/createEvent', require('./routes/createEvent'));
+
+app.use('/auth', require('./routes/auth'));
+app.use('/login', require('./routes/login'));
+app.use('/logout', require('./routes/logout'));
 
 if(process.env.NODE_ENV === 'production') {
     //production mode
