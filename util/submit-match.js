@@ -67,7 +67,7 @@ exports.submitMatch = async (data) => {
 exports.submitToJSON = (data) => {
 	dump.push(data);
 	const fs = require('fs');
-	fs.writeFile("../config/dump.json", JSON.stringify(dump), function (err) {
+	fs.writeFile("config/dump.json", JSON.stringify(dump), function (err) {
 		if (err) {
 			return console.log(err);
 		}
