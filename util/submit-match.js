@@ -3,7 +3,6 @@ let fields = require('../config/formConfig').form_db_interface;
 let dbUtils = require('../neo4j/dbUtils');
 let logger = require('./logger');
 const appConfig = require('../config/appConfig')
-let dump = require('../config/dump.json');
 
 exports.submitMatch = async (data) => {
 	let neoSession = dbUtils.getSession();
@@ -62,14 +61,4 @@ exports.submitMatch = async (data) => {
 	dbUtils.endTransaction(neoSession);
 
 	return status;
-}
-
-exports.submitToJSON = (data) => {
-	dump.push(data);
-	const fs = require('fs');
-	fs.writeFile("config/dump.json", JSON.stringify(dump), function (err) {
-		if (err) {
-			return console.log(err);
-		}
-	});
 }
