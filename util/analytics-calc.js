@@ -41,6 +41,7 @@ exports.calculateForTeam = async (teamNum) => {
             } else if (config.operators[0].func === 'by_match') {
                 data = by_match(data, config.operators[0].params[0]);
             } else if (config.operators[0].func === 'count_by_type') {
+				console.log(`config: ${config.name}`);
                 data = count_by_type(data);
                 dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) `+
 					`SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], ` +

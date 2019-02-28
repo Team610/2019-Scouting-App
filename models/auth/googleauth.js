@@ -1,11 +1,8 @@
-var passport = require('passport');
-var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+let passport = require('passport');
+let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+let config = require('../../config/config.json');
 
-passport.use(new GoogleStrategy({
-        clientID: "609299116953-at08rh33j3ggljmn33atjpp4uaqunc0s.apps.googleusercontent.com",
-        clientSecret: "CwxeFtpw8TU0SyW_YMHvdomm",
-        callbackURL: "http://127.0.0.1:3000/auth/googlecallback"
-    },
+passport.use(new GoogleStrategy(config.googleOAuth,
     function(accessToken, refreshToken, profile, done) {
         console.log('AccessToken token"' + accessToken);
         console.log('Refresh token"' + refreshToken);
@@ -23,7 +20,7 @@ passport.use(new GoogleStrategy({
         //     }
         //     return done(null, user);
         // });
-        if (profile['emails'][0].value== 'felixyu@crescentschool.org') {
+        if (profile['emails'][0].value == 'felixyu@crescentschool.org') {
             console.log('Login success')
             // passes the user found into a serializeUser, such as a cookie
             // the user could be the profile returned, or couild be from a user record retrieved from local DB matching the profile
@@ -45,6 +42,5 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((user, done) => {
     done(null, user);
 });
-
 
 module.exports = passport;

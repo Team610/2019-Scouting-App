@@ -3,6 +3,11 @@
         "url":"bolt://localhost",
         "username":"neo4j",
         "password":"neo4j"
+	},
+	"googleOAuth": {
+        "clientID": "id.apps.googleusercontent.com",
+        "clientSecret": "secret",
+        "callbackURL": "http://127.0.0.1:3001/auth/googlecallback"
     },
     "port": "3001"
 }

@@ -592,6 +592,13 @@
 			"metrics":["robot_noshow"]
 		},
 		{
+			"name":"tot_robot_strand",
+			"operators":[
+				{"func":"count_by_type"}
+			],
+			"metrics":["robot_strand"]
+		},
+		{
 			"name":"tot_robot_drop",
 			"operators":[
 				{"func":"count_by_type"}
