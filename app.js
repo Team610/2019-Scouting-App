@@ -40,13 +40,13 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use(bodyParser.json());
 
 //Auth initialization
-app.use(session({
-    secret: 's3cr3t',
-    resave: true,
-    saveUninitialized: true
-}));
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(session({
+//     secret: 's3cr3t',
+//     resave: true,
+//     saveUninitialized: true
+// }));
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static('public'));
 
