@@ -167,7 +167,7 @@ exports.queryDB = async function (queryName, queryParams) {
 			'mapper':idMapper
 		},
 		'markUserQualRelDone': {
-			'query':'MATCH (u:User{email:$userEmail})-[r]->(q:Qual{matchNum:$matchNum}) \
+			'query':'MATCH (u:User{email:$userEmail})-[r:Scouts]->(q:Qual{matchNum:$matchNum})<-[:Schedules]-(e:Event{id:$eventId}) \
 				SET r.submitted = true \
 				RETURN u, r',
 			'mapper':userRelMapper
@@ -218,7 +218,7 @@ exports.queryDB = async function (queryName, queryParams) {
 		'createUserScoutRelationships':{
 			'query':'MATCH (u:User) \
 				UNWIND u.matches AS mnum \
-				MATCH (q:Qual) WHERE q.matchNum = mnum \
+				MATCH (q:Qual{q.matchNum:mnum})<-[:Schedules]-(e:Event{id:$eventId}) \
 				WITH u, q \
 				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q) \
 				RETURN u, q',

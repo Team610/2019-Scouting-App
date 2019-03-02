@@ -56,7 +56,8 @@ exports.submitMatch = async (data) => {
 
 		let userQualRel = await dbUtils.queryDB('markUserQualRelDone', {
 			userEmail: data.user.email,
-			matchNum: matchNum
+			matchNum: matchNum,
+			eventId: curEvent
 		});
 
 		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`)
