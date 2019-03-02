@@ -56,6 +56,7 @@ app.use('/calcAnalytics', require('./routes/calcAnalytics'));
 app.use('/api', require('./routes/api'));
 app.use('/createEvent', require('./routes/createEvent'));
 app.use('/auth', require('./routes/auth'));
+app.use('/userGen', require('./routes/userGen'));
 
 if(process.env.NODE_ENV === 'production') {
     //production mode

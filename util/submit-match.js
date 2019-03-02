@@ -2,7 +2,7 @@
 let fields = require('../config/formConfig').form_db_interface;
 let dbUtils = require('../neo4j/dbUtils');
 let logger = require('./logger');
-const appConfig = require('../config/appConfig')
+const appConfig = require('../config/appConfig');
 
 exports.submitMatch = async (data) => {
 	let neoSession = dbUtils.getSession();

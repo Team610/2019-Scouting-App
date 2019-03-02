@@ -6,3 +6,4 @@ client/
 .vscode/
 nohup.out
 .env
+src/react-app-env.d.ts
