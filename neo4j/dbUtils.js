@@ -56,7 +56,7 @@ let teamAggStatMapper = (result) => {
 			if(typeof stat.value === 'object') {
 				obj[stat.name] = stat.value.low;
 			} else {
-				obj[stat.name] = stat.value;
+				obj[stat.name] = stat.value ? stat.value : stat.values;
 			}
 		}
 	}

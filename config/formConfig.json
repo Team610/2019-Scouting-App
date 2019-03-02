@@ -494,7 +494,15 @@
                 {"func":"sum"}
             ],
             "metrics":["def_rocket_goalkeep","def_ship_goalkeep","def_pinning","def_tough_defense","def_driving_around"]
-        },
+		},
+		{
+			"name":"tot_matches_def",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_rocket_goalkeep","def_ship_goalkeep","def_pinning","def_tough_defense","def_driving_around"]
+		},
         {
             "name":"tot_time_def_rocket_goalkeep",
             "operators":[
@@ -503,6 +511,14 @@
             ],
             "metrics":["def_rocket_goalkeep"]
         },
+		{
+			"name":"tot_matches_def_rocket_goalkeep",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_rocket_goalkeep"]
+		},
         {
             "name":"tot_time_def_ship_goalkeep",
             "operators":[
@@ -511,6 +527,14 @@
             ],
             "metrics":["def_ship_goalkeep"]
         },
+		{
+			"name":"tot_matches_def_ship_goalkeep",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_ship_goalkeep"]
+		},
         {
             "name":"tot_time_def_driving_around",
             "operators":[
@@ -519,6 +543,14 @@
             ],
             "metrics":["def_driving_around"]
         },
+		{
+			"name":"tot_matches_def_driving_around",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_driving_around"]
+		},
         {
             "name":"tot_time_def_pinning",
             "operators":[
@@ -527,6 +559,14 @@
             ],
             "metrics":["def_pinning"]
         },
+		{
+			"name":"tot_matches_def_pinning",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_pinning"]
+		},
         {
             "name":"tot_time_def_tough_defense",
             "operators":[
@@ -534,6 +574,14 @@
                 {"func":"sum"}
             ],
             "metrics":["def_tough_defense"]
+		},
+		{
+			"name":"tot_matches_def_tough_defense",
+			"operators":[
+				{"func":"by_match", "params":["nToOne"]},
+				{"func":"count"}
+			],
+			"metrics":["def_tough_defense"]
 		},
 		{
 			"name":"tot_num_climb_lvl",
