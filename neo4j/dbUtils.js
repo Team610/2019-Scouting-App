@@ -26,9 +26,10 @@ let teamMetricMapper = (result) => {
 }
 
 let teamListMapper = (result) => {
-    let obj=[];
-    for (let i=0; i<result.records[0].get(0).properties.teams.length; i++) {
-        obj[i]=Number(result.records[0].get(0).properties.teams[i]);
+	let obj=[];
+	let teams = result.records[0].get(0).properties.teams;
+    for (let i=0; i<teams.length; i++) {
+        obj[i]=Number(teams[i]);
 	}
     return obj;
 }
@@ -68,6 +69,32 @@ let formListMapper = (result) => {
 		obj[i] = result.records[i].get(0).properties;
 	}
 	return obj;
+}
+
+let userQualMapper = (result) => {
+	let obj = {};
+	for(let i=0; i<result.records.length; i++) {
+		let user = result.records[i].get(0).properties;
+		let qual = result.records[i].get(1).properties;
+		if(obj[user.email] === undefined) {
+			obj[user.email] = [];
+		}
+		obj[user.email].push(qual);
+	}
+	return obj;
+}
+
+let qualRelMapper = (result) => {
+	let arr = {};
+	for(let i=0; i<result.records.length; i++) {
+		let qual = result.records[i].get(0).properties;
+		let rel = result.records[i].get(1).properties;
+		arr[i] = {
+			qual: qual,
+			rel: rel
+		}
+	}
+	return arr;
 }
 
 let propsMapper = (result) => {
@@ -162,10 +189,6 @@ exports.queryDB = async function (queryName, queryParams) {
 			'query':'CREATE (u:User{name:$userName, email:$userEmail, role:$userRole}) RETURN u',
 			'mapper': propsMapper
 		},
-		'getCurMatch': {
-			'query':'RETURN 1',
-			'mapper': idMapper //TODO: make the query actually work
-		},
 		'createUserNodes':{
 			'query':`CALL apoc.load.json("${scoutsJsonPath}") YIELD value \
 				UNWIND value.scouts AS scout \
@@ -182,11 +205,11 @@ exports.queryDB = async function (queryName, queryParams) {
 				WITH u, q \
 				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q) \
 				RETURN u, q',
-			'mapper': propsMapper
+			'mapper': userQualMapper
 		},
 		'getQualsForUser':{
 			'query':'MATCH (u:User)-[r]->(q:Qual) WHERE u.email = $userEmail RETURN q, r',
-			'mapper': propsMapper
+			'mapper': qualRelMapper
 		}
 	};
     let neoSession = neoDriver.session();
