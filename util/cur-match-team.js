@@ -4,7 +4,8 @@ let logger = require('./logger');
 let appConfig = require('../config/appConfig.json');
 
 exports.getCurMatchTeam = async function(user) {
-	let quals = await dbUtils.queryDB('getQualsForUser', {event: appConfig.curEvent, userEmail: user.email, eventId: appConfig.curEvent});
+	logger.debug(`submitting for user ${user.email} in event ${appConfig.curEvent}`);
+	let quals = await dbUtils.queryDB('getQualsForUser', {userEmail: user.email, eventId: appConfig.curEvent});
 	let minMatchNum = 1000;
 	let ind = -1;
 	logger.debug(JSON.stringify(quals));
