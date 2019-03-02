@@ -1,6 +1,7 @@
 var neo4j = require('neo4j-driver').v1;
 const dbConfig = require('../config/config').dbAuth;
 var neoDriver = neo4j.driver(dbConfig.url, neo4j.auth.basic(dbConfig.username, dbConfig.password));
+const scoutsJsonPath = "https://raw.githubusercontent.com/Team610/2019-Scouting-App/dev/config/scouts.json"
 
 exports.getSession = function () {
     return neoDriver.session();
@@ -164,6 +165,28 @@ exports.queryDB = async function (queryName, queryParams) {
 		'getCurMatch': {
 			'query':'RETURN 1',
 			'mapper': idMapper //TODO: make the query actually work
+		},
+		'createUserNodes':{
+			'query':`CALL apoc.load.json("${scoutsJsonPath}") YIELD value \
+				UNWIND value.scouts AS scout \
+				MERGE(user:User {name: scout.name, email: scout.email}) \
+				ON CREATE SET user = scout \
+				ON MATCH SET user = scout \
+				RETURN scout`,
+			'mapper': propsMapper
+		},
+		'createUserScoutRelationships':{
+			'query':'MATCH (u:User) \
+				UNWIND u.matches AS mnum \
+				MATCH (q:Qual) WHERE q.matchNum = mnum \
+				WITH u, q \
+				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q) \
+				RETURN u, q',
+			'mapper': propsMapper
+		},
+		'getQualsForUser':{
+			'query':'MATCH (u:User)-[r]->(q:Qual) WHERE u.email = $userEmail RETURN q, r',
+			'mapper': propsMapper
 		}
 	};
     let neoSession = neoDriver.session();
