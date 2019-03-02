@@ -225,7 +225,7 @@ exports.queryDB = async function (queryName, queryParams) {
 			'mapper': userQualMapper
 		},
 		'getQualsForUser':{
-			'query':'MATCH (u:User)-[r]->(q:Qual) WHERE u.email = $userEmail RETURN q, r',
+			'query':'MATCH (u:User)-[r]->(q:Qual)<-[]-(e:Event{id:$eventId}) WHERE u.email = $userEmail RETURN q, r',
 			'mapper': qualRelMapper
 		}
 	};

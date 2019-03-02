@@ -4,10 +4,11 @@ let logger = require('./logger');
 let appConfig = require('../config/appConfig.json');
 
 exports.getCurMatchTeam = async function(user) {
-	let quals = await dbUtils.queryDB('getQualsForUser', {event: appConfig.curEvent, userEmail: user.email});
+	let quals = await dbUtils.queryDB('getQualsForUser', {event: appConfig.curEvent, userEmail: user.email, eventId: appConfig.curEvent});
 	let minMatchNum = 1000;
 	let ind = -1;
-	for(let i=0; i<quals.length; i++) {
+	logger.debug(JSON.stringify(quals));
+	for(let i in Object.keys(quals)) {
 		if(!quals[i].rel.submitted) {
 			if(quals[i].qual.matchNum < minMatchNum) {
 				minMatchNum = quals[i].qual.matchNum;
@@ -16,7 +17,7 @@ exports.getCurMatchTeam = async function(user) {
 		}
 	}
 
-	let teams = await dbUtils.queryDB('getQualTeams', {event: appConfig.curEvent, matchNum: minMatchNum});
+	let teams = await dbUtils.queryDB('getQualTeams', {eventId: appConfig.curEvent, matchNum: minMatchNum});
 	let teamNum = -1;
 	let alliance = 'neither';
 	if(quals[ind].rel.station === 'Red1') {
@@ -43,7 +44,9 @@ exports.getCurMatchTeam = async function(user) {
 
 	let nums = {
 		matchNum: minMatchNum,
-		teamNum: teamNum
+		teamNum: teamNum,
+		alliance: alliance
 	}
+	logger.debug(`obtained ${JSON.stringify(nums)}`);
 	return nums;
 }

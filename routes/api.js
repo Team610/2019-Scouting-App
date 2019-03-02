@@ -10,6 +10,6 @@ let eventRouter = require('./api/event');
 router.use('/v1/stats', statsRouter);
 router.use('/v1/matches', matchesRouter);
 router.use('/v1/submitForm', submitRouter);
-router.get('/v1/event', eventRouter);
+router.use('/v1/event', eventRouter);
 
 module.exports = router;
