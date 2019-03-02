@@ -1,0 +1,27 @@
+{
+  "scouts": [
+    {
+      "name": "John Kachura",
+      "email": "johnrobertkachura@crescentschool.org",
+      "role": 0,
+      "expertGroup": "hatch",
+      "station": "Red1",
+      "matches": [1,2,3,4,5,6,31,32,33,34,35,36,61,62,63,64,65,66]
+    },
+    {
+      "name": "Patrick Blais",
+      "email": "patrickblais@crescentschool.org",
+      "role": 0,
+      "expertGroup": "climb",
+      "station": "Blue3",
+      "matches": [25,26,27,28,29,30,55,56,57,58,59,60]
+    },
+    {
+      "name": "Felix Yu",
+      "expertGroup": "all",
+      "email": "felixyu@crescentschool.org",
+      "role": 2
+    }
+  ]
+}
+
