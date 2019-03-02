@@ -14,7 +14,7 @@ router.post('/', async function (req, res, next) {
 		});
 	} catch (err) {
 		logger.debug(`Unable to submit form`);
-		logger.debug(err.message);
+		logger.debug(err.stack);
 		res.json({
 			success: false
 		})

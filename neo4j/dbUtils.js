@@ -83,7 +83,6 @@ let userQualMapper = (result) => {
 	}
 	return obj;
 }
-
 let qualRelMapper = (result) => {
 	let arr = {};
 	for(let i=0; i<result.records.length; i++) {
@@ -95,6 +94,18 @@ let qualRelMapper = (result) => {
 		}
 	}
 	return arr;
+}
+let userRelMapper = (result) => {
+	let obj = {};
+	for(let i=0; i<result.records.length; i++) {
+		let user = result.records[i].get(0).properties;
+		let rel = result.records[i].get(1).properties;
+		obj[i] = {
+			user: user,
+			rel: rel
+		}
+	}
+	return obj;
 }
 
 let propsMapper = (result) => {
@@ -154,6 +165,12 @@ exports.queryDB = async function (queryName, queryParams) {
 				CREATE (t)-[:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$event}) \
 				RETURN ID(f)',
 			'mapper':idMapper
+		},
+		'markUserQualRelDone': {
+			'query':'MATCH (u:User{email:$userEmail})-[r]->(q:Qual{matchNum:$matchNum}) \
+				SET r.submitted = true \
+				RETURN u, r',
+			'mapper':userRelMapper
 		},
 		'createEventMatches':{
 			'query':'MERGE (e:Event{id:$eventId}) \

@@ -53,6 +53,14 @@ exports.submitMatch = async (data) => {
 		}); //TODO: move this query to the dbUtils func
 
 		logger.debug(`successfully saved match number ${result.records[0].get(0).properties.matchNum}`);
+
+		let userQualRel = dbUtils.queryDB('markUserQualRelDone', {
+			userEmail: data.user.email,
+			matchNum: matchNum
+		});
+
+		logger.debug(`successfully moved user ${userQualRel.user.name}'s match forward`)
+
 		status = true;
 	} catch (err) {
 		logger.debug(err.message);
