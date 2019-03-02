@@ -8,7 +8,7 @@ exports.getCurMatchTeam = async function(user) {
 	let quals = await dbUtils.queryDB('getQualsForUser', {userEmail: user.email, eventId: appConfig.curEvent});
 	let minMatchNum = 1000;
 	let ind = -1;
-	logger.debug(JSON.stringify(quals));
+	logger.debug(`quals: ${JSON.stringify(quals)}`);
 	for(let i in Object.keys(quals)) {
 		if(!quals[i].rel.submitted) {
 			if(quals[i].qual.matchNum < minMatchNum) {
