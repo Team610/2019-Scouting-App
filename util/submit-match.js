@@ -54,12 +54,12 @@ exports.submitMatch = async (data) => {
 
 		logger.debug(`successfully saved match number ${result.records[0].get(0).properties.matchNum}`);
 
-		let userQualRel = dbUtils.queryDB('markUserQualRelDone', {
+		let userQualRel = await dbUtils.queryDB('markUserQualRelDone', {
 			userEmail: data.user.email,
 			matchNum: matchNum
 		});
 
-		logger.debug(`successfully moved user ${userQualRel.user.name}'s match forward`)
+		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`)
 
 		status = true;
 	} catch (err) {

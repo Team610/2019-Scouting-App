@@ -96,16 +96,16 @@ let qualRelMapper = (result) => {
 	return arr;
 }
 let userRelMapper = (result) => {
-	let obj = {};
+	let arr = [];
 	for(let i=0; i<result.records.length; i++) {
 		let user = result.records[i].get(0).properties;
 		let rel = result.records[i].get(1).properties;
-		obj[i] = {
+		arr[i] = {
 			user: user,
 			rel: rel
 		}
 	}
-	return obj;
+	return arr;
 }
 
 let propsMapper = (result) => {

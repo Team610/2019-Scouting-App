@@ -133,6 +133,10 @@
 			"type":"enum"
 		},
 		{
+			"form_field_id":"robot_strand",
+			"type":"enum"
+		},
+		{
 			"form_field_id":"robot_drop",
 			"type":"enum"
 		},

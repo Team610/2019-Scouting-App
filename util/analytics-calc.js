@@ -41,7 +41,7 @@ exports.calculateForTeam = async (teamNum) => {
             } else if (config.operators[0].func === 'by_match') {
                 data = by_match(data, config.operators[0].params[0]);
             } else if (config.operators[0].func === 'count_by_type') {
-				console.log(`config: ${config.name}`);
+				// console.log(`config: ${config.name}`);
                 data = count_by_type(data);
                 dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) `+
 					`SET s.keys=[${Object.keys(data).map(x => "'"+x+"'").toString()}], ` +
@@ -66,8 +66,8 @@ exports.calculateForTeam = async (teamNum) => {
             queryString += " WITH t, a "+dataQuery;
         }
         queryString += " RETURN t";
-		// console.log(queryString);
-		// console.log(`teamNum: ${teamNum}, event: ${appConfig.curEvent}`)
+		console.log(queryString);
+		console.log(`teamNum: ${teamNum}, event: ${appConfig.curEvent}`)
         let team = await neoSession.run(queryString, {teamNum:teamNum, event:appConfig.curEvent});
         logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
     } catch (err) {
