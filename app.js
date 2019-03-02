@@ -7,6 +7,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 var session = require('express-session');
+require('dotenv').config();
 
 var app = express();
 
@@ -54,10 +55,7 @@ app.use('/admin', require('./routes/index'));
 app.use('/calcAnalytics', require('./routes/calcAnalytics'));
 app.use('/api', require('./routes/api'));
 app.use('/createEvent', require('./routes/createEvent'));
-
 app.use('/auth', require('./routes/auth'));
-app.use('/login', require('./routes/login'));
-app.use('/logout', require('./routes/logout'));
 
 if(process.env.NODE_ENV === 'production') {
     //production mode

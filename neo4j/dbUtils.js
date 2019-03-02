@@ -152,6 +152,18 @@ exports.queryDB = async function (queryName, queryParams) {
 				WITH e, s SET s.values=\"N/A\" \
 				RETURN e',
 			'mapper': propsMapper
+		},
+		'getUser':{
+			'query':'MATCH (u:User{name:$userName, email:$userEmail}) RETURN u',
+			'mapper': propsMapper
+		},
+		'createUser':{
+			'query':'CREATE (u:User{name:$userName, email:$userEmail, role:$userRole}) RETURN u',
+			'mapper': propsMapper
+		},
+		'getCurMatch': {
+			'query':'RETURN 1',
+			'mapper': idMapper //TODO: make the query actually work
 		}
 	};
     let neoSession = neoDriver.session();
