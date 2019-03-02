@@ -164,6 +164,24 @@ exports.queryDB = async function (queryName, queryParams) {
 		'getCurMatch': {
 			'query':'RETURN 1',
 			'mapper': idMapper //TODO: make the query actually work
+		},
+		'createUserNodes':{
+			'query':'CALL apoc.load.json("file:/Users/PPatel/scouts.json") YIELD value \
+				UNWIND value.scouts AS scout \
+				MERGE(user:User {name: scout.name, email: scout.email}) \
+				ON CREATE SET user = scout \
+				ON MATCH SET user = scout \
+				RETURN scout',
+			'mapper': propsMapper
+		},
+		'createUserScoutRelationships':{
+			'query':'MATCH (u:User) \
+				UNWIND u.matches AS mnum \
+				MATCH (q:Qual) WHERE q.matchNum = mnum \
+				WITH u, q \
+				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q) \
+				RETURN u, q',
+			'mapper': propsMapper
 		}
 	};
     let neoSession = neoDriver.session();
