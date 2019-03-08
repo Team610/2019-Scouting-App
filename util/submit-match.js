@@ -2,6 +2,7 @@
 let fields = require('../config/formConfig').form_db_interface;
 let dbUtils = require('../neo4j/dbUtils');
 let logger = require('./logger');
+const stringUtils = require('../util/stringUtils');
 const appConfig = require('../config/appConfig');
 
 exports.submitMatch = async (data) => {
@@ -36,14 +37,18 @@ exports.submitMatch = async (data) => {
 			let fieldQuery = "CREATE (f)-[:Do]->(:Metric)";
 			let db_metric_name = field.db_metric_id ? field.db_metric_id : field.form_field_id;
 
-			let dataString;
-			if (typeof data[field.form_field_id] === 'object') {
-				dataString = `name:"${db_metric_name}",values:${JSON.stringify(data[field.form_field_id])}`;
+			if(db_metric_name==='other_comments') {
+				dataString = `name: "${db_metric_name}", values: "${stringUtils.escape(data[field.form_field_id])}"`;
 			} else {
-				dataString = `name:"${db_metric_name}",values:["${data[field.form_field_id]}"]`;
-			} //TODO: turn this into a util method
-			fieldQuery = stringInjector(fieldQuery, "{" + dataString + "" + "}", 1);
-			queryString += " " + fieldQuery;
+				let dataString;
+				if (typeof data[field.form_field_id] === 'object') {
+					dataString = `name:"${db_metric_name}",values:${JSON.stringify(data[field.form_field_id])}`;
+				} else {
+					dataString = `name:"${db_metric_name}",values:["${data[field.form_field_id]}"]`;
+				} //TODO: turn this into a util method
+				fieldQuery = stringInjector(fieldQuery, "{" + dataString + "" + "}", 1);
+				queryString += " " + fieldQuery;
+			}
 		}
 		queryString += " RETURN f";
 

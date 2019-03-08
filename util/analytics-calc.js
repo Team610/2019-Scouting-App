@@ -1,6 +1,7 @@
 "use strict";
 let configs = require('../config/formConfig').db_analytics_agg;
 let dbUtils = require('../neo4j/dbUtils');
+let stringUtils = require('./stringUtils');
 let logger = require('./logger');
 let appConfig = require('../config/appConfig');
 
@@ -14,6 +15,7 @@ exports.calculateForTeam = async (teamNum) => {
 		let queryString = "MATCH (t:Team{num:toInteger($teamNum)})-[:Performs]->(a:Aggregate{event:$event})";
 		for (let config of configs) {
 			console.log("trying " + config.name);
+
 			let data = [];
 			let dataQuery = "";
 			if (config.operators[0].type === 'cond') {
@@ -50,11 +52,10 @@ exports.calculateForTeam = async (teamNum) => {
 			} else if (config.operators[0].func === 'by_match') {
 				data = by_match(data, config.operators[0].params[0]);
 			} else if (config.operators[0].func === 'count_by_type') {
-				// console.log(`config: ${config.name}`);
 				data = count_by_type(data);
 				dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) ` +
-					`SET s.keys=[${Object.keys(data).map(x => "'" + x + "'").toString()}], ` +
-					`s.values=[${Object.values(data).map(x => "'" + x + "'").toString()}]`;
+					`SET s.keys=[${Object.keys(data).map(x => `'${stringUtils.escape(x)}'`).toString()}], ` +
+					`s.values=[${Object.values(data).map(x => `'${stringUtils.escape(x)}'`).toString()}]`;
 				queryString += " WITH t, a " + dataQuery;
 				console.log(`processed data: ${JSON.stringify(data)}, type: ${typeof data}\n`);
 				continue;
