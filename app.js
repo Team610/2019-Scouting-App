@@ -57,6 +57,7 @@ app.use('/api', require('./routes/api'));
 app.use('/createEvent', require('./routes/createEvent'));
 app.use('/auth', require('./routes/auth'));
 app.use('/userGen', require('./routes/userGen'));
+app.use('/createForm', require('./routes/createForm'));
 
 if(process.env.NODE_ENV === 'production') {
     //production mode
@@ -65,8 +66,7 @@ if(process.env.NODE_ENV === 'production') {
     app.get('/', (req, res) => {
         res.sendfile(path.join(__dirname = 'client/build/index.html'));
     })
-}
-else {
+} else {
     //build mode
     console.log('Build mode starting ...');
     // app.use(express.static(path.join(__dirname, 'public')));

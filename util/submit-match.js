@@ -37,8 +37,10 @@ exports.submitMatch = async (data) => {
 			let fieldQuery = "CREATE (f)-[:Do]->(:Metric)";
 			let db_metric_name = field.db_metric_id ? field.db_metric_id : field.form_field_id;
 
-			if(db_metric_name==='other_comments') {
-				dataString = `name: "${db_metric_name}", values: "${stringUtils.escape(data[field.form_field_id])}"`;
+			if (db_metric_name === 'other_comments') {
+				let dataString = `name: "${db_metric_name}", values: ["${stringUtils.escape(data[field.form_field_id])}"]`;
+				fieldQuery = stringInjector(fieldQuery, "{" + dataString + "}", 1);
+				queryString += " " + fieldQuery;
 			} else {
 				let dataString;
 				if (typeof data[field.form_field_id] === 'object') {
@@ -46,7 +48,7 @@ exports.submitMatch = async (data) => {
 				} else {
 					dataString = `name:"${db_metric_name}",values:["${data[field.form_field_id]}"]`;
 				} //TODO: turn this into a util method
-				fieldQuery = stringInjector(fieldQuery, "{" + dataString + "" + "}", 1);
+				fieldQuery = stringInjector(fieldQuery, "{" + dataString + "}", 1);
 				queryString += " " + fieldQuery;
 			}
 		}
@@ -65,11 +67,11 @@ exports.submitMatch = async (data) => {
 			eventId: curEvent
 		});
 
-		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`)
+		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`);
 
 		status = true;
 	} catch (err) {
-		logger.debug(err.message);
+		logger.debug(err.stack);
 		logger.debug('failed to save match');
 	}
 	dbUtils.endTransaction(neoSession);

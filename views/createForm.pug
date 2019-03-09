@@ -1,0 +1,10 @@
+extends layout
+
+block content
+	h1= title
+	form(method="post" action="/createForm" id="form")
+		p Team #
+		input(type="number" name="teamNum" required)
+		p Match #
+		input(type="number" name="matchNum" required)
+		input(style="float: right" type="submit")

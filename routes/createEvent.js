@@ -13,14 +13,14 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', async function (req, res, next) {
-	console.log(`creating event ${req.body.eventCode}`);
-    let eventCode = req.body.eventCode;
+	let eventCode = req.body.eventCode;
+	logger.debug(`creating event ${eventCode}`);
 	await eventCreator.createEvent(eventCode);
 	let teams = await eventTeams.getTeams(appConfig.curEvent);
 	for (let team of teams) {
 		await calcQuerier.calculateForTeam(team);
 	}
-	console.log(`initialized teamList: ${JSON.stringify(teams)}`);
+	logger.debug(`initialized teamList: ${JSON.stringify(teams)}`);
     res.redirect('/admin');
 });
 
