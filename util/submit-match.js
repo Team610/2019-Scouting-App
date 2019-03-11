@@ -42,6 +42,7 @@ exports.submitMatch = async (data) => {
 				fieldQuery = stringInjector(fieldQuery, "{" + dataString + "}", 1);
 				queryString += " " + fieldQuery;
 			} else {
+				//For each field in the config, add to the query string 'CREATE (NODE {NAME, VALUES})'
 				let dataString;
 				if (typeof data[field.form_field_id] === 'object') {
 					dataString = `name:"${db_metric_name}",values:${JSON.stringify(data[field.form_field_id])}`;
