@@ -1,29 +1,30 @@
 "use strict";
-let fields = require('../config/formConfig').form_db_interface;
-let dbUtils = require('../neo4j/dbUtils');
-let logger = require('./logger');
+const fields = require('../config/formConfig').form_db_interface;
+const dbUtils = require('../neo4j/dbUtils');
+const logger = require('./logger');
 const stringUtils = require('../util/stringUtils');
-const appConfig = require('../config/appConfig');
 
-exports.submitMatch = async (data) => {
+exports.submitMatch = async (data, event) => {
+	if (event === undefined) {
+		event = await dbUtils.queryDB('getCurEvent', {});
+	}
 	let neoSession = dbUtils.getSession();
 	let status = false;
 
 	try {
 		const teamNum = data.teamNum;
 		const matchNum = data.matchNum;
-		const curEvent = appConfig.curEvent;
 
 		let deactivatePrevForms = await dbUtils.queryDB('deactivatePrevForms', {
 			teamNum: teamNum,
-			event: curEvent,
+			eventId: event,
 			matchNum: matchNum
 		});
 		logger.debug(`deactivated previous forms: ${deactivatePrevForms}`);
 
 		let newFormId = await dbUtils.queryDB('createNewForm', {
 			teamNum: teamNum,
-			event: curEvent,
+			eventId: event,
 			matchNum: matchNum
 		});
 		logger.debug(`created new form: ${newFormId}`);
@@ -65,7 +66,7 @@ exports.submitMatch = async (data) => {
 		let userQualRel = await dbUtils.queryDB('markUserQualRelDone', {
 			userEmail: data.user.email,
 			matchNum: matchNum,
-			eventId: curEvent
+			eventId: event
 		});
 
 		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`);

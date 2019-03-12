@@ -1,6 +1,6 @@
 "use strict";
-let dbUtils = require('../neo4j/dbUtils');
-let logger = require('./logger');
+const dbUtils = require('../neo4j/dbUtils');
+const logger = require('./logger');
 
 exports.getUser = async (argUser) => {
 	let email = argUser.email;

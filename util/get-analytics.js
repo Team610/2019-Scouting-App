@@ -1,15 +1,14 @@
 "use strict";
-let dbUtils = require('../neo4j/dbUtils');
-const logger = require('./logger');
-const appConfig = require('../config/appConfig.json');
-const configs = require('../config/formConfig.json');
+const dbUtils = require('../neo4j/dbUtils');
 
 exports.getTeamAgg = async (teamId) => {
-	let res = await dbUtils.queryDB('getTeamAggStats',{teamNum:teamId,eventId:appConfig.curEvent});
+	const curEvent = await dbUtils.queryDB('getCurEvent',{});
+	let res = await dbUtils.queryDB('getTeamAggStats',{teamNum:teamId,eventId:curEvent});
 	return res;
 }
 
 exports.getTeamMbm = async (teamId) => {
-	let res = await dbUtils.queryDB('getFormMetricsForTeam',{teamNum:teamId,eventId:appConfig.curEvent});
+	const curEvent = await dbUtils.queryDB('getCurEvent',{});
+	let res = await dbUtils.queryDB('getFormMetricsForTeam',{teamNum:teamId,eventId:curEvent});
 	return res;
 }

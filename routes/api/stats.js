@@ -1,14 +1,13 @@
 "use strict";
-const request = require('request');
 let router = require('express').Router();
 const dbUtils = require('../../neo4j/dbUtils');
 const logger = require("../../util/logger"); //TODO: make this path more absolute
 const querier = require("../../util/get-analytics");
-const appConfig = require("../../config/appConfig.json");
 
 async function teamMiddleware(req) {
     if(!req.query.teams) {
-        req.query.teams = await dbUtils.queryDB('getTeamList',{eventId:appConfig.curEvent});
+		const curEvent = await dbUtils.queryDB('getCurEvent',{});
+        req.query.teams = await dbUtils.queryDB('getTeamList',{eventId:curEvent});
     }
     return req;
 }

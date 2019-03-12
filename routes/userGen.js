@@ -1,7 +1,7 @@
 "use strict";
 let router = require('express').Router();
-let logger = require('../util/logger');
-let querier = require('../util/user-gen');
+const logger = require('../util/logger');
+const querier = require('../util/user-gen');
 
 router.get('/', async function(req, res, next) {
 	try {

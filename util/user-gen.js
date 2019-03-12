@@ -1,12 +1,12 @@
 "use strict";
-let dbUtils = require('../neo4j/dbUtils');
-let logger = require('./logger');
-let appConfig = require('../config/appConfig.json');
+const dbUtils = require('../neo4j/dbUtils');
+const logger = require('./logger');
 
 exports.generateUsers = async () => {
 	try {
+		const curEvent = dbUtils.queryDB('getCurEvent', {});
 		await dbUtils.queryDB('createUserNodes', {});
-		await dbUtils.queryDB('createUserScoutRelationships', {eventId: appConfig.curEvent});
+		await dbUtils.queryDB('createUserScoutRelationships', {eventId: curEvent});
 		return true;
 	} catch (err) {
 		logger.debug(`${err.stack}`);

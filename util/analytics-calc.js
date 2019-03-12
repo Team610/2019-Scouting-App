@@ -1,20 +1,22 @@
 "use strict";
 let configs = require('../config/formConfig').db_analytics_agg;
-let dbUtils = require('../neo4j/dbUtils');
-let stringUtils = require('./stringUtils');
-let logger = require('./logger');
-let appConfig = require('../config/appConfig');
+const dbUtils = require('../neo4j/dbUtils');
+const stringUtils = require('./stringUtils');
+const logger = require('./logger');
 
-exports.calculateForTeam = async (teamNum) => {
+exports.calculateForTeam = async (teamNum, event) => {
+	if (event===undefined) {
+		event = await dbUtils.queryDB('getCurEvent',{});
+	}
 	logger.debug(`calculating analytics for team ${teamNum}`);
-	let neoSession = dbUtils.getSession();
+	let neoSession = dbUtils.getSession(); //TODO: find a way to abstract the dbUtils layer
 
 	try {
-		const formData = await dbUtils.queryDB('getFormMetricsForTeam', { teamNum: teamNum, eventId: appConfig.curEvent });
+		const formData = await dbUtils.queryDB('getFormMetricsForTeam', { teamNum: teamNum, eventId: event });
 		// console.log(formData);
 		let queryString = "MATCH (t:Team{num:toInteger($teamNum)})-[:Performs]->(a:Aggregate{event:$event})";
 		for (let config of configs) {
-			console.log("trying " + config.name);
+			// console.log("trying " + config.name);
 
 			let data = [];
 			let dataQuery = "";
@@ -25,7 +27,7 @@ exports.calculateForTeam = async (teamNum) => {
 					if (formData[matchNum][condKey] == condVal) {
 						let matchData = [];
 						for (let metric of config.metrics) {
-							console.log(`metric: ${metric}\tkey: ${matchNum}\tformData[key][metric]: ${JSON.stringify(formData[matchNum][metric])}`);
+							// console.log(`metric: ${metric}\tkey: ${matchNum}\tformData[key][metric]: ${JSON.stringify(formData[matchNum][metric])}`);
 							for (let val of formData[matchNum][metric]) {
 								matchData.push(val);
 							}
@@ -37,7 +39,7 @@ exports.calculateForTeam = async (teamNum) => {
 				for (let matchNum of Object.keys(formData)) {
 					let matchData = [];
 					for (let metric of config.metrics) {
-						console.log(`metric: ${metric}\tkey: ${matchNum}\tformData[matchNum][metric]: ${JSON.stringify(formData[matchNum][metric])}`);
+						// console.log(`metric: ${metric}\tkey: ${matchNum}\tformData[matchNum][metric]: ${JSON.stringify(formData[matchNum][metric])}`);
 						for (let val of formData[matchNum][metric]) {
 							matchData.push(val);
 						}
@@ -46,7 +48,7 @@ exports.calculateForTeam = async (teamNum) => {
 				}
 			}
 
-			console.log(`raw data: ${JSON.stringify(data)}, type: ${typeof data}`);
+			// console.log(`raw data: ${JSON.stringify(data)}, type: ${typeof data}`);
 			if (config.operators[0].func === 'by_instance') {
 				data = by_instance(data);
 			} else if (config.operators[0].func === 'by_match') {
@@ -57,12 +59,12 @@ exports.calculateForTeam = async (teamNum) => {
 					`SET s.keys=[${Object.keys(data).map(x => `'${stringUtils.escape(x)}'`).toString()}], ` +
 					`s.values=[${Object.values(data).map(x => `'${stringUtils.escape(x)}'`).toString()}]`;
 				queryString += " WITH t, a " + dataQuery;
-				console.log(`processed data: ${JSON.stringify(data)}, type: ${typeof data}\n`);
+				// console.log(`processed data: ${JSON.stringify(data)}, type: ${typeof data}\n`);
 				continue;
 			} else {
 				throw { message: "config incorrectly set up" };
 			}
-			console.log(`intermediate data: ${JSON.stringify(data)}, type: ${typeof data}`);
+			// console.log(`intermediate data: ${JSON.stringify(data)}, type: ${typeof data}`);
 
 			if (config.operators[1].func === 'avg') {
 				data = func_avg(data);
@@ -75,13 +77,13 @@ exports.calculateForTeam = async (teamNum) => {
 			}
 
 			dataQuery = `MATCH (a)-[:Specify]->(s:Statistic{name:'${config.name}'}) SET s.value=${JSON.stringify(data)} REMOVE s.values`;
-			console.log(`processed data: ${data}, type: ${typeof data}\n`);
+			// console.log(`processed data: ${data}, type: ${typeof data}\n`);
 			queryString += " WITH t, a " + dataQuery;
 		}
 		queryString += " RETURN t";
-		console.log(queryString);
-		console.log(`teamNum: ${teamNum}, event: ${appConfig.curEvent}`)
-		let team = await neoSession.run(queryString, { teamNum: teamNum, event: appConfig.curEvent });
+		// console.log(queryString);
+		// console.log(`teamNum: ${teamNum}, event: ${event}`);
+		let team = await neoSession.run(queryString, { teamNum: teamNum, event: event });
 		logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
 	} catch (err) {
 		logger.debug(err.stack);

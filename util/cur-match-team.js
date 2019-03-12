@@ -1,11 +1,11 @@
 "use strict";
-let dbUtils = require('../neo4j/dbUtils');
-let logger = require('./logger');
-let appConfig = require('../config/appConfig.json');
+const dbUtils = require('../neo4j/dbUtils');
+const logger = require('./logger');
 
 exports.getCurMatchTeam = async function(user) {
-	logger.debug(`submitting for user ${user.email} in event ${appConfig.curEvent}`);
-	let quals = await dbUtils.queryDB('getQualsForUser', {userEmail: user.email, eventId: appConfig.curEvent});
+	const curEvent = dbUtils.queryDB('getCurEvent', {});
+	logger.debug(`submitting for user ${user.email} in event ${curEvent}`);
+	let quals = await dbUtils.queryDB('getQualsForUser', {userEmail: user.email, eventId: curEvent});
 	let minMatchNum = 1000;
 	let ind = -1;
 	logger.debug(`quals: ${JSON.stringify(quals)}`);
@@ -18,7 +18,7 @@ exports.getCurMatchTeam = async function(user) {
 		}
 	}
 
-	let teams = await dbUtils.queryDB('getQualTeams', {eventId: appConfig.curEvent, matchNum: minMatchNum});
+	let teams = await dbUtils.queryDB('getQualTeams', {eventId: curEvent, matchNum: minMatchNum});
 	let teamNum = -1;
 	let alliance = 'neither';
 	if(quals[ind].rel.station === 'Red1') {

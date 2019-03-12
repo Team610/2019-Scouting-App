@@ -1,11 +1,8 @@
 "use strict";
-const request = require('request');
 let router = require('express').Router();
 const logger = require("../util/logger");
-const eventCreator = require("../util/event-creator");
-const eventTeams = require('../util/event-teams');
+const eventQuerier = require("../util/event-querier");
 const calcQuerier = require('../util/analytics-calc');
-const appConfig = require('../config/appConfig.json');
 
 router.get('/', function (req, res, next) {
     logger.debug("Create new event");
@@ -13,14 +10,18 @@ router.get('/', function (req, res, next) {
 });
 
 router.post('/', async function (req, res, next) {
-	let eventCode = req.body.eventCode;
-	logger.debug(`creating event ${eventCode}`);
-	await eventCreator.createEvent(eventCode);
-	let teams = await eventTeams.getTeams(appConfig.curEvent);
+	let newEvent = req.body.eventCode;
+	logger.debug(`creating event ${newEvent}`);
+	await eventQuerier.createEvent(newEvent);
+	let teams = await eventQuerier.getTeams(newEvent);
 	for (let team of teams) {
-		await calcQuerier.calculateForTeam(team);
+		await calcQuerier.calculateForTeam(team, newEvent);
 	}
 	logger.debug(`initialized teamList: ${JSON.stringify(teams)}`);
+
+	let curEvent = await eventQuerier.setCurEvent(newEvent);
+	logger.debug(`successfully updated curEvent: ${curEvent}`);
+
     res.redirect('/admin');
 });
 

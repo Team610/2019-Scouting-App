@@ -1,15 +1,10 @@
 "use strict";
 let router = require('express').Router();
-const logger = require("../util/logger");
-let statsRouter = require('./api/stats');
-let matchesRouter = require('./api/matches');
-let submitRouter = require('./api/submit');
-let eventRouter = require('./api/event');
 
-//Nested routes
-router.use('/v1/stats', statsRouter);
-router.use('/v1/matches', matchesRouter);
-router.use('/v1/submitForm', submitRouter);
-router.use('/v1/event', eventRouter);
+router.use('/v1/stats', require('./api/stats'));
+router.use('/v1/matches', require('./api/matches'));
+router.use('/v1/submitForm', require('./api/submit'));
+router.use('/v1/event', require('./api/event'));
+router.use('/v1/photos', require('./api/photos'));
 
 module.exports = router;
