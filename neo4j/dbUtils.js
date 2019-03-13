@@ -121,6 +121,13 @@ const mappers = {
 			return -1;
 		}
 		return result.records[0].get(0).properties.id;
+	},
+	photos: (result) => {
+		let arr = [];
+		for (let record of result.records) {
+			arr.push(record.get(0).properties.photoData);
+		}
+		return arr;
 	}
 }
 
@@ -252,6 +259,11 @@ exports.queryDB = async function (queryName, queryParams) {
 				CREATE (t)-[:Appears]->(p:RobotPhoto {view:$view, photoData:$photoData, time:$time})
 				RETURN t`,
 			'mapper': 'props'
+		},
+		'getRobotPhotos': {
+			'query': `MATCH (t:Team {num:$teamNum})-[:Appears]->(p:RobotPhoto {view:$view})
+				RETURN p`,
+			'mapper': 'photos'
 		}
 	};
 	let neoSession = neoDriver.session();

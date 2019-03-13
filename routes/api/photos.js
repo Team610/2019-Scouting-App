@@ -27,8 +27,26 @@ router.post('/', async function (req, res, next) {
 	}
 });
 
-router.get('/:team_id/:view', function (req, res, next) {
-
+router.get('/:team_id/:view', async function (req, res, next) {
+	try {
+		const teamNum = Number(req.params.team_id);
+		const view = req.params.view;
+		const photos = await dbUtils.queryDB('getRobotPhotos', {
+			teamNum: teamNum,
+			view: view
+		});
+		logger.debug(`got ${photos.length} photos`);
+		res.json({
+			success: true,
+			photos: photos
+		});
+	} catch (err) {
+		logger.debug(`Unable to get photos`);
+		logger.debug(err.stack);
+		res.json({
+			success: false
+		});
+	}
 });
 
 module.exports = router;
