@@ -143,9 +143,6 @@ let func_avg = function (list) {
 	let sum = 0;
 	for (let i = 0; i < list.length; i++) {
 		sum += Number(list[i]);
-		if(isNaN(sum)) {
-			console.log("NaN'd");
-		}
 	}
 	// console.log("output: "+ sum/list.length);
 	return sum / list.length;

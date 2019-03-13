@@ -4,6 +4,15 @@ const logger = require('./logger');
 const analyticsConfig = require('../config/formConfig.json').db_analytics_agg;
 const request = require('request-promise');
 
+const photoViews = [
+	"back",
+	"front",
+	"isom",
+	"other",
+	"side",
+	"top"
+]; //TODO: put this in a proper config
+
 exports.createEvent = async (eventCode) => {
 	logger.debug(`creating event ${eventCode}`);
 	let rawMatchList = await request({
