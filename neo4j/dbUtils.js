@@ -35,6 +35,9 @@ const mappers = {
 	},
 	qualTeams: (result) => {
 		let obj = [];
+		if (result.records[0] === undefined) {
+			return { success: false };
+		}
 		for (let i = 0; i < result.records[0].get(0).length; i++) {
 			obj[i] = typeof result.records[0].get(0)[i] === 'object' ?
 				result.records[0].get(0)[i].low :
