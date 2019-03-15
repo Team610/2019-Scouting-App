@@ -198,15 +198,21 @@ exports.queryDB = async function (queryName, queryParams) {
 				RETURN u, r`,
 			'mapper': 'userRel'
 		},
-		'createEventMatches': {
+		'createEvent' : {
 			'query': `MERGE (e:Event{id:$eventId})
+				ON CREATE SET e.active=false
+				RETURN e`,
+			'mapper': 'props'
+		},
+		'createEventMatches': {
+			'query': `MATCH (e:Event{id:$eventId})
 				WITH e UNWIND $matchList AS q
 				MERGE (e)-[:Schedules]->(:Qual{matchNum:q.num, teams:q.teams})
 				RETURN e`,
 			'mapper': 'props'
 		},
 		'createEventTeams': {
-			'query': `MERGE (e:Event{id:$eventId})
+			'query': `MATCH (e:Event{id:$eventId})
 				WITH e MERGE (e)-[:Hosts]->(:TeamList{teams:$teamList})
 				WITH e UNWIND $teamList AS tNum
 				MERGE (t:Team{num:toInteger(tNum)})
@@ -214,7 +220,7 @@ exports.queryDB = async function (queryName, queryParams) {
 			'mapper': 'props'
 		},
 		'createEventTeamAnalytics': {
-			'query': `MERGE (e:Event{id:$eventId})
+			'query': `MATCH (e:Event{id:$eventId})
 				WITH e UNWIND $teamList AS tNum
 				MERGE (t:Team{num:toInteger(tNum)})
 				WITH e, t MERGE (t)-[:Performs]->(a:Aggregate{event:$eventId})
@@ -225,7 +231,8 @@ exports.queryDB = async function (queryName, queryParams) {
 			'mapper': 'props'
 		},
 		'getUser': {
-			'query': 'MATCH (u:User{name:$userName, email:$userEmail}) RETURN u',
+			'query': `MATCH (u:User{name:$userName, email:$userEmail})
+				RETURN u`,
 			'mapper': 'props'
 		},
 		'createUser': {

@@ -15,6 +15,7 @@ const photoViews = [
 
 exports.createEvent = async (eventCode) => {
 	logger.debug(`creating event ${eventCode}`);
+	await dbUtils.queryDB('createEvent', { eventId: eventCode });
 	let rawMatchList = await request({
 		uri: `https://www.thebluealliance.com/api/v3/event/${eventCode}/matches/simple`,
 		headers: {
@@ -69,17 +70,17 @@ exports.createEvent = async (eventCode) => {
 	logger.debug(`created team analytic nodes for ${analyticsRes.id}`);
 }
 
-exports.getTeams = async function(event) {
-	let teams = await dbUtils.queryDB('getTeamList',{eventId: event});
+exports.getTeams = async function (event) {
+	let teams = await dbUtils.queryDB('getTeamList', { eventId: event });
 	return teams;
 }
 
 exports.getCurEvent = async () => {
-	let e = await dbUtils.queryDB('getCurEvent',{});
+	let e = await dbUtils.queryDB('getCurEvent', {});
 	return e;
 }
 
 exports.setCurEvent = async (event) => {
-	let e = await dbUtils.queryDB('setCurEvent',{eventId: event});
+	let e = await dbUtils.queryDB('setCurEvent', { eventId: event });
 	return e;
 }
