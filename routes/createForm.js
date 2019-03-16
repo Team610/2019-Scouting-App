@@ -1,7 +1,7 @@
 "use strict";
 let router = require('express').Router();
 const logger = require('../util/logger');
-const submitQuerier = require('../util/submit-match');
+const matchQuerier = require('../util/match-querier');
 let fields = require('../config/formConfig.json').form_db_interface;
 
 router.get('/', function (req, res, next) {
@@ -18,7 +18,7 @@ router.post('/', async function(req, res, next) {
 	for(let field of fields) {
 		data[field.form_field_id] = field.type==='enum' ? 'blank' : [];
 	}
-	await submitQuerier.submitMatch(data);
+	await matchQuerier.submitMatch(data);
 
 	res.redirect('/admin');
 });

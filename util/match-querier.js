@@ -3,11 +3,18 @@ const fields = require('../config/formConfig').form_db_interface;
 const dbUtils = require('../neo4j/dbUtils');
 const logger = require('./logger');
 const stringUtils = require('../util/stringUtils');
+const eventQuerier = require('./event-querier');
+
+exports.getTeamsForMatch = async (matchNum, event) => {
+	if (event === undefined)
+		event = await eventQuerier.getCurEvent();
+	const teams = await dbUtils.queryDB('getQualTeams', { eventId: event, matchNum: matchNum });
+	return teams;
+}
 
 exports.submitMatch = async (data, event) => {
-	if (event === undefined) {
-		event = await dbUtils.queryDB('getCurEvent', {});
-	}
+	if (event === undefined)
+		event = await eventQuerier.getCurEvent();
 	let neoSession = dbUtils.getSession();
 	let status = false;
 

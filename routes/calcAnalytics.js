@@ -1,15 +1,14 @@
 "use strict";
 let router = require('express').Router();
-const dbUtils = require('../neo4j/dbUtils'); //TODO: separate dbUtils layer
-const logger = require("../util/logger");
-const querier = require("../util/analytics-calc");
+const logger = require('../util/logger');
+const calcQuerier = require('../util/analytics-calc');
+const eventQuerier = require('../util/event-querier');
 
 router.get('/', async function(req, res, next) {
-	const curEvent = await dbUtils.queryDB('getCurEvent', {});
-    let list = await dbUtils.queryDB('getTeamList', {eventId:curEvent});
+	const list = await eventQuerier.getTeams();
     try {
         for (let team of Object.values(list)) {
-            await querier.calculateForTeam(team);
+            await calcQuerier.calculateForTeam(team);
         }
     } catch (err) {
         logger.debug(err.message);
@@ -21,7 +20,7 @@ router.get('/', async function(req, res, next) {
 router.get('/:team_id', async function (req, res, next) {
     let team = req.params.team_id;
     try {
-        await querier.calculateForTeam(team);
+        await calcQuerier.calculateForTeam(team);
     } catch (err) {
         logger.debug(err.message);
         logger.debug("could not calculate analytics");

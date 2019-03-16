@@ -1,6 +1,7 @@
 "use strict";
 const dbUtils = require('../neo4j/dbUtils');
 const logger = require('./logger');
+const eventQuerier = require('./event-querier');
 
 exports.getUser = async (argUser) => {
 	let email = argUser.email;
@@ -23,5 +24,17 @@ exports.getUser = async (argUser) => {
 	} catch (err) {
 		logger.debug(`Unable to find user ${name}`);
 		logger.debug(err.stack);
+	}
+}
+
+exports.generateUsers = async () => {
+	try {
+		const curEvent = await eventQuerier.getCurEvent();
+		await dbUtils.queryDB('createUserNodes', {});
+		await dbUtils.queryDB('createUserScoutRelationships', {eventId: curEvent});
+		return true;
+	} catch (err) {
+		logger.debug(`${err.stack}`);
+		return false;
 	}
 }

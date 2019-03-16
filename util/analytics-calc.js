@@ -2,14 +2,14 @@
 let configs = require('../config/formConfig').db_analytics_agg;
 const dbUtils = require('../neo4j/dbUtils');
 const stringUtils = require('./stringUtils');
+const eventQuerier = require('./event-querier');
 const logger = require('./logger');
 
 exports.calculateForTeam = async (teamNum, event) => {
-	if (event===undefined) {
-		event = await dbUtils.queryDB('getCurEvent',{});
-	}
+	if (event===undefined)
+		event = await eventQuerier.getCurEvent();
 	logger.debug(`calculating analytics for team ${teamNum}`);
-	let neoSession = dbUtils.getSession(); //TODO: find a way to abstract the dbUtils layer
+	let neoSession = dbUtils.getSession(); //TODO: find a way to abstract the query
 
 	try {
 		const formData = await dbUtils.queryDB('getFormMetricsForTeam', { teamNum: teamNum, eventId: event });
@@ -87,12 +87,12 @@ exports.calculateForTeam = async (teamNum, event) => {
 		logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
 	} catch (err) {
 		logger.debug(err.stack);
-		logger.debug(`Failed to calculate for team ${teamNum}`); //TODO: if the function fails, need to throw exception and handle error code
+		logger.debug(`Failed to calculate for team ${teamNum}`);
 	}
 	dbUtils.endTransaction(neoSession);
 }
 
-let by_instance = function (lists) {
+const by_instance = function (lists) {
 	// console.log("by_instance");
 	// console.log("input: "+ lists);
 	let result = [];
@@ -105,7 +105,7 @@ let by_instance = function (lists) {
 	return result;
 }
 
-let by_match = function (lists, param) {
+const by_match = function (lists, param) {
 	// console.log("by_match, "+param);
 	// console.log("input: "+lists);
 	for (let list in lists) {
@@ -123,7 +123,7 @@ let by_match = function (lists, param) {
 	return lists;
 }
 
-let func_count = function (list) {
+const func_count = function (list) {
 	// console.log(`count\ninput: ${list}\noutput: ${list.length}`);
 	let count = 0;
 	for(let i=0; i<list.length; i++) {
@@ -134,7 +134,7 @@ let func_count = function (list) {
 	return count;
 }
 
-let func_avg = function (list) {
+const func_avg = function (list) {
 	// console.log("avg");
 	// console.log("input: "+list);
 	if (list.length == 0) {
@@ -148,7 +148,7 @@ let func_avg = function (list) {
 	return sum / list.length;
 }
 
-let func_sum = function (list) {
+const func_sum = function (list) {
 	// console.log("sum");
 	// console.log("input: "+list);
 	let sum = 0;
@@ -159,7 +159,7 @@ let func_sum = function (list) {
 	return sum;
 }
 
-let n_to_one = function (list) {
+const n_to_one = function (list) {
 	for (let i=0; i<list.length; i++) {
 		if(Number(list[i])>=0)
 			return 1;
@@ -167,7 +167,7 @@ let n_to_one = function (list) {
 	return 0;
 }
 
-let count_by_type = function (list) {
+const count_by_type = function (list) {
 	list = by_instance(list);
 	// console.log("count_by_type");
 	// console.log(`input: ${JSON.stringify(list)}\ttype: ${typeof list}\tlength: ${list.length}`);

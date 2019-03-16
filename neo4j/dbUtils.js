@@ -31,6 +31,15 @@ const mappers = {
 		for (let i = 0; i < teams.length; i++) {
 			obj[i] = Number(teams[i]);
 		}
+		//Sort the team list: since teamlist already sorted as strings
+		//If the team number is 3 digits, move them to the beginning
+		let threeCount = 0;
+		for (let i = 0; i < obj.length; i++) {
+			if (obj[i] < 1000) {
+				obj = obj.slice(0, threeCount).concat(obj[i], obj.slice(threeCount, i), obj.slice(i + 1, obj.length));
+				threeCount++;
+			}
+		}
 		return obj;
 	},
 	qualTeams: (result) => {
@@ -198,7 +207,7 @@ exports.queryDB = async function (queryName, queryParams) {
 				RETURN u, r`,
 			'mapper': 'userRel'
 		},
-		'createEvent' : {
+		'createEvent': {
 			'query': `MERGE (e:Event{id:$eventId})
 				ON CREATE SET e.active=false
 				RETURN e`,

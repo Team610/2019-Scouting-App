@@ -1,9 +1,10 @@
 "use strict";
 const dbUtils = require('../neo4j/dbUtils');
 const logger = require('./logger');
+const eventQuerier = require('./event-querier');
 
 exports.getCurMatchTeam = async function(user) {
-	const curEvent = dbUtils.queryDB('getCurEvent', {});
+	const curEvent = await eventQuerier.getCurEvent();
 	logger.debug(`submitting for user ${user.email} in event ${curEvent}`);
 	let quals = await dbUtils.queryDB('getQualsForUser', {userEmail: user.email, eventId: curEvent});
 	let minMatchNum = 1000;

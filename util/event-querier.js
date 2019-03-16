@@ -4,15 +4,6 @@ const logger = require('./logger');
 const analyticsConfig = require('../config/formConfig.json').db_analytics_agg;
 const request = require('request-promise');
 
-const photoViews = [
-	"back",
-	"front",
-	"isom",
-	"other",
-	"side",
-	"top"
-]; //TODO: put this in a proper config
-
 exports.createEvent = async (eventCode) => {
 	logger.debug(`creating event ${eventCode}`);
 	await dbUtils.queryDB('createEvent', { eventId: eventCode });
@@ -71,11 +62,13 @@ exports.createEvent = async (eventCode) => {
 }
 
 exports.getTeams = async function (event) {
+	if (event === undefined)
+		event = await getCurEvent();
 	let teams = await dbUtils.queryDB('getTeamList', { eventId: event });
 	return teams;
 }
 
-exports.getCurEvent = async () => {
+const getCurEvent = exports.getCurEvent = async () => {
 	let e = await dbUtils.queryDB('getCurEvent', {});
 	return e;
 }
