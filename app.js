@@ -76,8 +76,8 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-	next(createError(404));
+app.use(function(req, res, next) { //TODO: give a 404 error msg
+	res.redirect('/');
 });
 
 // error handler
