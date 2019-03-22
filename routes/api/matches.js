@@ -14,7 +14,7 @@ router.get('/:match_id/teams', async function (req, res, next) {
 			logger.debug(`could not find teams`);
 			res.json({ success: false });
 		} else {
-			logger.debug(`got teams ${teams} for match ${matchNum} of ${curEvent}`);
+			logger.debug(`got teams ${teams} for match ${matchNum}`);
 			res.json(teams);
 		}
 	}

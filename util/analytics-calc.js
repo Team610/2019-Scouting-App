@@ -5,8 +5,8 @@ const stringUtils = require('./stringUtils');
 const eventQuerier = require('./event-querier');
 const logger = require('./logger');
 
-exports.calculateForTeam = async (teamNum, event) => {
-	if (event===undefined)
+let calculateForTeam = exports.calculateForTeam = async (teamNum, event) => {
+	if (event === undefined)
 		event = await eventQuerier.getCurEvent();
 	logger.debug(`calculating analytics for team ${teamNum}`);
 	let neoSession = dbUtils.getSession(); //TODO: find a way to abstract the query
@@ -84,12 +84,28 @@ exports.calculateForTeam = async (teamNum, event) => {
 		// console.log(queryString);
 		// console.log(`teamNum: ${teamNum}, event: ${event}`);
 		let team = await neoSession.run(queryString, { teamNum: teamNum, event: event });
-		logger.debug(`successfully calculated for team ${team.records[0].get(0).properties.num}`);
+		team = team.records[0].get(0).properties.num;
+		logger.debug(`successfully calculated for team ${team}`);
+		dbUtils.endTransaction(neoSession);
+		return team;
 	} catch (err) {
 		logger.debug(err.stack);
 		logger.debug(`Failed to calculate for team ${teamNum}`);
+		dbUtils.endTransaction(neoSession);
+		return -1;
 	}
-	dbUtils.endTransaction(neoSession);
+}
+
+exports.calculateForAll = async (event) => {
+	if (event === undefined)
+		event = await eventQuerier.getCurEvent();
+	let teams = await eventQuerier.getTeams(event);
+	for (let team of teams) {
+		const resNum = await calculateForTeam(team);
+		if (resNum < 0)
+			return -1;
+	}
+	return 0;
 }
 
 const by_instance = function (lists) {
@@ -126,8 +142,8 @@ const by_match = function (lists, param) {
 const func_count = function (list) {
 	// console.log(`count\ninput: ${list}\noutput: ${list.length}`);
 	let count = 0;
-	for(let i=0; i<list.length; i++) {
-		if(list[i] !== 0) {
+	for (let i = 0; i < list.length; i++) {
+		if (list[i] !== 0) {
 			count++;
 		}
 	}
@@ -160,8 +176,8 @@ const func_sum = function (list) {
 }
 
 const n_to_one = function (list) {
-	for (let i=0; i<list.length; i++) {
-		if(Number(list[i])>=0)
+	for (let i = 0; i < list.length; i++) {
+		if (Number(list[i]) >= 0)
 			return 1;
 	}
 	return 0;

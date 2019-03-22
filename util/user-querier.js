@@ -32,9 +32,9 @@ exports.generateUsers = async () => {
 		const curEvent = await eventQuerier.getCurEvent();
 		await dbUtils.queryDB('createUserNodes', {});
 		await dbUtils.queryDB('createUserScoutRelationships', {eventId: curEvent});
-		return true;
+		return 0;
 	} catch (err) {
 		logger.debug(`${err.stack}`);
-		return false;
+		return -1;
 	}
 }

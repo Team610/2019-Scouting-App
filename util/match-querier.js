@@ -68,8 +68,8 @@ exports.submitMatch = async (data, event) => {
 			matchNum: matchNum,
 			eventId: event
 		});
-
-		logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`);
+		if (userQualRel[0])
+			logger.debug(`successfully moved user ${userQualRel[0].user.name}'s match forward`);
 
 		status = true;
 	} catch (err) {

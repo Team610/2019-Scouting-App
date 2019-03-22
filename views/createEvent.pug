@@ -1,8 +1,0 @@
-extends layout
-
-block content
-    h1= title
-    form(method="post" action="/createEvent" id="form")
-        p Input event code
-        input(type="text" name="eventCode" required)
-        input(style="float: right" type="submit")

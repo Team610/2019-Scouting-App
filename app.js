@@ -51,13 +51,9 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/public', express.static('public'));
 
-app.use('/admin', require('./routes/index'));
-app.use('/calcAnalytics', require('./routes/calcAnalytics'));
+// app.use('/admin', require('./routes/index'));
 app.use('/api', require('./routes/api'));
-app.use('/createEvent', require('./routes/createEvent'));
 app.use('/auth', require('./routes/auth'));
-app.use('/userGen', require('./routes/userGen'));
-app.use('/createForm', require('./routes/createForm'));
 // app.use('*', function (req, res) {
 // 	res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 // });

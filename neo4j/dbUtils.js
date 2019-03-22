@@ -134,6 +134,12 @@ const mappers = {
 		}
 		return result.records[0].get(0).properties.id;
 	},
+	property: (result) => {
+		if (result.records[0] == undefined) {
+			return -1;
+		}
+		return result.records[0].get(0);
+	},
 	photos: (result) => {
 		let arr = [];
 		for (let record of result.records) {
@@ -283,6 +289,17 @@ exports.queryDB = async function (queryName, queryParams) {
 			'query': `MATCH (t:Team {num:$teamNum})-[:Appears]->(p:RobotPhoto {view:$view})
 				RETURN p`,
 			'mapper': 'photos'
+		},
+		'getBlueSide': {
+			'query': `MATCH (e:Event {id:$eventId})
+				RETURN e.blueSide`,
+			'mapper': 'property'
+		},
+		'setBlueSide': {
+			'query': `MATCH (e:Event {id:$eventId})
+				SET e.blueSide = $side
+				RETURN e.blueSide`,
+			'mapper': 'property'
 		}
 	};
 	let neoSession = neoDriver.session();

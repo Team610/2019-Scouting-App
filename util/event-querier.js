@@ -69,11 +69,19 @@ exports.getTeams = async function (event) {
 }
 
 const getCurEvent = exports.getCurEvent = async () => {
-	let e = await dbUtils.queryDB('getCurEvent', {});
-	return e;
+	try {
+		const e = await dbUtils.queryDB('getCurEvent', {});
+		return e;
+	} catch (err) {
+		return -1;
+	}
 }
 
 exports.setCurEvent = async (event) => {
-	let e = await dbUtils.queryDB('setCurEvent', { eventId: event });
-	return e;
+	try {
+		const e = await dbUtils.queryDB('setCurEvent', { eventId: event });
+		return e;
+	} catch (err) {
+		return -1;
+	}
 }
