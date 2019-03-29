@@ -215,7 +215,7 @@ exports.queryDB = async function (queryName, queryParams) {
 		},
 		'createEvent': {
 			'query': `MERGE (e:Event{id:$eventId})
-				ON CREATE SET e.active=false
+				ON CREATE SET e.active=false, e.blueSide='left'
 				RETURN e`,
 			'mapper': 'props'
 		},
