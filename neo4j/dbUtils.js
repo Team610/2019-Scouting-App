@@ -267,7 +267,7 @@ exports.queryDB = async function (queryName, queryParams) {
 		'createUserScoutRelationships': {
 			'query': `MATCH (u:User)
 				UNWIND u.matches AS mnum
-				MATCH (q:Qual{q.matchNum:mnum})<-[:Schedules]-(e:Event{id:$eventId})
+				MATCH (q:Qual{matchNum:mnum})<-[:Schedules]-(e:Event{id:$eventId})
 				WITH u, q
 				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q)
 				RETURN u, q`,
