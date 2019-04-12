@@ -6,7 +6,7 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Blue2",
-      "matches": [19, 20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Logan Hersen",
@@ -14,7 +14,7 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Blue1",
-      "matches": [19, 20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Carter Tang",
@@ -22,26 +22,7 @@
       "email": "cartertang@crescentschool.org",
       "role": 0,
       "station": "Red2",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Everett Tang",
@@ -49,7 +30,7 @@
       "role": 0,
       "expertGroup": "climb",
       "station": "Blue2",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Noah Limpert",
@@ -57,7 +38,7 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Blue1",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Eric Zhang",
@@ -65,34 +46,15 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Blue3",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Alan Mei",
       "email": "alanmei@crescentschool.org",
-      "role": 0,
+      "role": 1,
       "expertGroup": "cargo",
       "station": "Red1",
-      "matches": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ]
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Yanbo Cheng",
@@ -100,26 +62,7 @@
       "role": 0,
       "expertGroup": "climb",
       "station": "Red3",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Christian Alloway",
@@ -127,26 +70,7 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Red1",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Jonny Meiers",
@@ -154,7 +78,7 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Blue3",
-      "matches": [19, 20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Dylan Zeitler",
@@ -162,26 +86,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Red2",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Joshua Cooke",
@@ -189,40 +94,21 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Red1",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Dylan Lu",
       "email": "dylanlu@crescentschool.org",
       "role": 0,
       "expertGroup": "defense",
-      "station": "Red1",
-      "matches": [38, 39, 40, 41, 42]
+      "station": "Blue2",
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Justin Metivier",
       "email": "justinmetivier@crescentschool.org",
-      "role": 0,
-      "expertGroup": "hatch"
+      "role": 2,
+      "expertGroup": "all"
     },
     {
       "name": "Matthew Carl",
@@ -230,26 +116,7 @@
       "role": 0,
       "expertGroup": "climb",
       "station": "Red3",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": []
     },
     {
       "name": "Simon Wills",
@@ -257,26 +124,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Blue2",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Oliver Simpson",
@@ -284,26 +132,7 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Blue3",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Christopher Leung",
@@ -311,26 +140,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Blue2",
-      "matches": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Timothy Wang",
@@ -338,7 +148,7 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Red2",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Walter Chen",
@@ -346,26 +156,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Red3",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Andrew Guo",
@@ -373,26 +164,7 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Red3",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Matthew Bisset",
@@ -400,7 +172,7 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Red1",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Danny Gu",
@@ -408,7 +180,7 @@
       "role": 0,
       "expertGroup": "climb",
       "station": "Blue2",
-      "matches": [20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Tristan Hou",
@@ -416,26 +188,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Blue3",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Eilia Dastmalchian",
@@ -443,26 +196,7 @@
       "role": 0,
       "expertGroup": "hatch",
       "station": "Red2",
-      "matches": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ]
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Sean O'Rourke",
@@ -470,7 +204,7 @@
       "role": 0,
       "expertGroup": "climb",
       "station": "Red3",
-      "matches": [25, 26, 27, 28, 29, 30, 55, 56, 57, 58, 59, 60]
+      "matches": [55, 56, 57, 58, 59, 60]
     },
     {
       "name": "Cole Harrison",
@@ -478,26 +212,7 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Blue3",
-      "matches": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ]
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Ryan Seto",
@@ -505,53 +220,15 @@
       "role": 0,
       "expertGroup": "defense",
       "station": "Red3",
-      "matches": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        31,
-        32,
-        33,
-        34,
-        35,
-        36,
-        61,
-        62,
-        63,
-        64,
-        65,
-        66
-      ]
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Caden Lee",
       "email": "cadenlee@crescentschool.org",
       "role": 0,
       "expertGroup": "hatch",
-      "station": "Blue2",
-      "matches": [
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        43,
-        44,
-        45,
-        46,
-        47,
-        48,
-        73,
-        74,
-        75,
-        76,
-        77,
-        78
-      ]
+      "station": "Blue1",
+      "matches": [67, 68, 69, 70, 71, 72]
     },
     {
       "name": "Michael Cheng",
@@ -559,34 +236,15 @@
       "role": 0,
       "expertGroup": "cargo",
       "station": "Red3",
-      "matches": [19, 20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Colin Davies",
-      "email": "Colindavies@crescentschool.org",
+      "email": "colindavies@crescentschool.org",
       "role": 0,
       "expertGroup": "climb",
       "station": "Blue1",
-      "matches": [
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        37,
-        38,
-        39,
-        40,
-        41,
-        42,
-        67,
-        68,
-        69,
-        70,
-        71,
-        72
-      ]
+      "matches": [73, 74, 75, 76, 77, 78, 79, 80]
     },
     {
       "name": "Felix Yu",
@@ -600,7 +258,7 @@
       "role": 0,
       "expertGroup": "all",
       "station": "Red1",
-      "matches": [19, 20, 21, 22, 23, 24, 49, 50, 51, 52, 53, 54, 79, 80]
+      "matches": []
     },
     {
       "name": "Aidan De Villa-Choi",
@@ -613,18 +271,30 @@
       "email": "aidanmaunder@crescentschool.org",
       "role": 0,
       "expertGroup": "climb",
-      "station": "Blue1",
-      "matches": [31, 32, 33, 34, 35, 36, 61, 62, 63, 64, 65, 66]
+      "station": "Blue2",
+      "matches": [61, 62, 63, 64, 65, 66]
     },
     {
       "name": "Christopher Hatsios",
       "email": "christopherhatsios@gmail.com",
-      "role": 2,
+      "role": 1,
       "expertGroup": "all"
     },
     {
       "name": "Johnathan Norris",
       "email": "johnathannorris@gmail.com",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Doug Brajer",
+      "email": "dbrajer@gmail.com",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Michael Yan",
+      "email": "michael.t.yan@gmail.com",
       "role": 1,
       "expertGroup": "all"
     },
@@ -641,6 +311,12 @@
       "expertGroup": "all"
     },
     {
+      "name": "Rob Stehlik",
+      "email": "rstehlik@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
       "name": "Ben Cooke",
       "email": "bencooke@crescentschool.org",
       "role": 1,
@@ -649,6 +325,36 @@
     {
       "name": "Marcella Fioroni",
       "email": "mfioroni@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Don Morrison",
+      "email": "dmorrison@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Patrick Blais",
+      "email": "patrickblais@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Marcel Lui",
+      "email": "marcellui@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Jackson Brajer",
+      "email": "jacksonbrajer@crescentschool.org",
+      "role": 1,
+      "expertGroup": "all"
+    },
+    {
+      "name": "Tony Qian",
+      "email": "tqian@crescentschool.org",
       "role": 1,
       "expertGroup": "all"
     }
