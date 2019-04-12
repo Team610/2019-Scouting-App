@@ -139,7 +139,7 @@
       "email": "christopherleung@crescentschool.org",
       "role": 0,
       "expertGroup": "cargo",
-      "station": "Blue2",
+      "station": "Blue1",
       "matches": [55, 56, 57, 58, 59, 60]
     },
     {
@@ -163,7 +163,7 @@
       "email": "andrewguo@crescentschool.org",
       "role": 0,
       "expertGroup": "defense",
-      "station": "Red3",
+      "station": "Blue1",
       "matches": [61, 62, 63, 64, 65, 66]
     },
     {
