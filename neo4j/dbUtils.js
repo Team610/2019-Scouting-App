@@ -149,159 +149,160 @@ const mappers = {
 	}
 }
 
+const queries = {
+	'getCurEvent': {
+		'query': 'MATCH (e:Event {active:true}) \
+			RETURN e',
+		'mapper': 'event'
+	},
+	'setCurEvent': {
+		'query': 'MATCH (aE:Event {active:true}) \
+			SET aE.active = false WITH aE \
+			MATCH (nE:Event {id:$eventId}) \
+			SET nE.active = true \
+			RETURN nE',
+		'mapper': 'event'
+	},
+	'getTeam': {
+		'query': 'MATCH (t:Team {num:toInteger($teamNum)}) \
+			RETURN t',
+		'mapper': 'props'
+	},
+	'getTeamAggStats': {
+		'query': 'MATCH (t:Team {num:toInteger($teamNum)})-[:Performs]->(a:Aggregate {event:$eventId})-[:Specify]->(s:Statistic) \
+			RETURN t,a,s',
+		'mapper': 'teamAggStat'
+	},
+	'getTeamList': {
+		'query': 'MATCH (e:Event {id:$eventId})-[:Hosts]->(l:TeamList) \
+			RETURN l',
+		'mapper': 'teamList'
+	},
+	'getQualTeams': {
+		'query': 'MATCH (e:Event {id:$eventId})-[:Schedules]->(q:Qual {matchNum:$matchNum}) \
+			RETURN q.teams',
+		'mapper': 'qualTeams'
+	},
+	'getFormsForTeam': {
+		'query': 'MATCH (t:Team{num:toInteger($teamNum)}) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form) \
+			RETURN f',
+		'mapper': 'formList'
+	},
+	'getFormMetricsForTeam': { //TODO: Figure out how to make this query work with replays
+		'query': 'MATCH (t:Team{num:toInteger($teamNum)})-[:Plays{active:true}]->(f:Form{eventId:$eventId})-[:Do]->(m:Metric) \
+			RETURN m, f.matchNum',
+		'mapper': 'teamMetric'
+	},
+	'deactivatePrevForms': {
+		'query': `MATCH (t:Team{num:toInteger($teamNum)}) WITH t 
+			MATCH (t)-[p:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId}) 
+			SET p.active=false 
+			RETURN f`,
+		'mapper': 'props'
+	},
+	'createNewForm': {
+		'query': `MATCH (t:Team{num:toInteger($teamNum)})
+			CREATE (t)-[:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId})
+			RETURN ID(f)`,
+		'mapper': 'id'
+	},
+	'markUserQualRelDone': {
+		'query': `MATCH (u:User{email:$userEmail})-[r:Scouts]->(q:Qual{matchNum:$matchNum})<-[:Schedules]-(e:Event{id:$eventId})
+			SET r.submitted = true
+			RETURN u, r`,
+		'mapper': 'userRel'
+	},
+	'createEvent': {
+		'query': `MERGE (e:Event{id:$eventId})
+			ON CREATE SET e.active=false, e.blueSide='left'
+			RETURN e`,
+		'mapper': 'props'
+	},
+	'createEventMatches': {
+		'query': `MATCH (e:Event{id:$eventId})
+			WITH e UNWIND $matchList AS q
+			MERGE (e)-[:Schedules]->(:Qual{matchNum:q.num, teams:q.teams})
+			RETURN e`,
+		'mapper': 'props'
+	},
+	'createEventTeams': {
+		'query': `MATCH (e:Event{id:$eventId})
+			WITH e MERGE (e)-[:Hosts]->(:TeamList{teams:$teamList})
+			WITH e UNWIND $teamList AS tNum
+			MERGE (t:Team{num:toInteger(tNum)})
+			RETURN e`,
+		'mapper': 'props'
+	},
+	'createEventTeamAnalytics': {
+		'query': `MATCH (e:Event{id:$eventId})
+			WITH e UNWIND $teamList AS tNum
+			MERGE (t:Team{num:toInteger(tNum)})
+			WITH e, t MERGE (t)-[:Performs]->(a:Aggregate{event:$eventId})
+			WITH e, a UNWIND $statList AS statName
+			MERGE (a)-[:Specify]->(s:Statistic{name:statName})
+			WITH e, s SET s.values=\"N/A\"
+			RETURN e`,
+		'mapper': 'props'
+	},
+	'getUser': {
+		'query': `MATCH (u:User{name:$userName, email:$userEmail})
+			RETURN u`,
+		'mapper': 'props'
+	},
+	'createUser': {
+		'query': `CREATE (u:User{name:$userName, email:$userEmail, role:$userRole})
+			RETURN u`,
+		'mapper': 'props'
+	},
+	'createUserNodes': {
+		'query': `CALL apoc.load.json("${scoutsJsonPath}") YIELD value
+			UNWIND value.scouts AS scout
+			MERGE(user:User {name: scout.name, email: scout.email})
+			ON CREATE SET user = scout
+			ON MATCH SET user = scout
+			RETURN scout`,
+		'mapper': 'props'
+	},
+	'createUserScoutRelationships': {
+		'query': `MATCH (u:User)
+			UNWIND u.matches AS mnum
+			MATCH (q:Qual{matchNum:mnum})<-[:Schedules]-(e:Event{id:$eventId})
+			WITH u, q
+			MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q)
+			RETURN u, q`,
+		'mapper': 'userQual'
+	},
+	'getQualsForUser': {
+		'query': `MATCH (u:User)-[r]->(q:Qual)<-[]-(e:Event{id:$eventId})
+			WHERE u.email = $userEmail
+			RETURN q, r`,
+		'mapper': 'qualRel'
+	},
+	'addRobotPhoto': {
+		'query': `MATCH (t:Team {num:$teamNum})
+			CREATE (t)-[:Appears]->(p:RobotPhoto {view:$view, photoData:$photoData, time:$time})
+			RETURN t`,
+		'mapper': 'props'
+	},
+	'getRobotPhotos': {
+		'query': `MATCH (t:Team {num:$teamNum})-[:Appears]->(p:RobotPhoto {view:$view})
+			RETURN p`,
+		'mapper': 'photos'
+	},
+	'getBlueSide': {
+		'query': `MATCH (e:Event {id:$eventId})
+			RETURN e.blueSide`,
+		'mapper': 'property'
+	},
+	'setBlueSide': {
+		'query': `MATCH (e:Event {id:$eventId})
+			SET e.blueSide = $side
+			RETURN e.blueSide`,
+		'mapper': 'property'
+	}
+};
+
 exports.queryDB = async function (queryName, queryParams) {
-	const queries = {
-		'getCurEvent': {
-			'query': 'MATCH (e:Event {active:true}) \
-				RETURN e',
-			'mapper': 'event'
-		},
-		'setCurEvent': {
-			'query': 'MATCH (aE:Event {active:true}) \
-				SET aE.active = false WITH aE \
-				MATCH (nE:Event {id:$eventId}) \
-				SET nE.active = true \
-				RETURN nE',
-			'mapper': 'event'
-		},
-		'getTeam': {
-			'query': 'MATCH (t:Team {num:toInteger($teamNum)}) \
-				RETURN t',
-			'mapper': 'props'
-		},
-		'getTeamAggStats': {
-			'query': 'MATCH (t:Team {num:toInteger($teamNum)})-[:Performs]->(a:Aggregate {event:$eventId})-[:Specify]->(s:Statistic) \
-				RETURN t,a,s',
-			'mapper': 'teamAggStat'
-		},
-		'getTeamList': {
-			'query': 'MATCH (e:Event {id:$eventId})-[:Hosts]->(l:TeamList) \
-				RETURN l',
-			'mapper': 'teamList'
-		},
-		'getQualTeams': {
-			'query': 'MATCH (e:Event {id:$eventId})-[:Schedules]->(q:Qual {matchNum:$matchNum}) \
-				RETURN q.teams',
-			'mapper': 'qualTeams'
-		},
-		'getFormsForTeam': {
-			'query': 'MATCH (t:Team{num:toInteger($teamNum)}) WITH t MATCH (t)-[:Plays{active:true}]->(f:Form) \
-				RETURN f',
-			'mapper': 'formList'
-		},
-		'getFormMetricsForTeam': { //TODO: Figure out how to make this query work with replays
-			'query': 'MATCH (t:Team{num:toInteger($teamNum)})-[:Plays{active:true}]->(f:Form{eventId:$eventId})-[:Do]->(m:Metric) \
-				RETURN m, f.matchNum',
-			'mapper': 'teamMetric'
-		},
-		'deactivatePrevForms': {
-			'query': `MATCH (t:Team{num:toInteger($teamNum)}) WITH t 
-				MATCH (t)-[p:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId}) 
-				SET p.active=false 
-				RETURN f`,
-			'mapper': 'props'
-		},
-		'createNewForm': {
-			'query': `MATCH (t:Team{num:toInteger($teamNum)})
-				CREATE (t)-[:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId})
-				RETURN ID(f)`,
-			'mapper': 'id'
-		},
-		'markUserQualRelDone': {
-			'query': `MATCH (u:User{email:$userEmail})-[r:Scouts]->(q:Qual{matchNum:$matchNum})<-[:Schedules]-(e:Event{id:$eventId})
-				SET r.submitted = true
-				RETURN u, r`,
-			'mapper': 'userRel'
-		},
-		'createEvent': {
-			'query': `MERGE (e:Event{id:$eventId})
-				ON CREATE SET e.active=false, e.blueSide='left'
-				RETURN e`,
-			'mapper': 'props'
-		},
-		'createEventMatches': {
-			'query': `MATCH (e:Event{id:$eventId})
-				WITH e UNWIND $matchList AS q
-				MERGE (e)-[:Schedules]->(:Qual{matchNum:q.num, teams:q.teams})
-				RETURN e`,
-			'mapper': 'props'
-		},
-		'createEventTeams': {
-			'query': `MATCH (e:Event{id:$eventId})
-				WITH e MERGE (e)-[:Hosts]->(:TeamList{teams:$teamList})
-				WITH e UNWIND $teamList AS tNum
-				MERGE (t:Team{num:toInteger(tNum)})
-				RETURN e`,
-			'mapper': 'props'
-		},
-		'createEventTeamAnalytics': {
-			'query': `MATCH (e:Event{id:$eventId})
-				WITH e UNWIND $teamList AS tNum
-				MERGE (t:Team{num:toInteger(tNum)})
-				WITH e, t MERGE (t)-[:Performs]->(a:Aggregate{event:$eventId})
-				WITH e, a UNWIND $statList AS statName
-				MERGE (a)-[:Specify]->(s:Statistic{name:statName})
-				WITH e, s SET s.values=\"N/A\"
-				RETURN e`,
-			'mapper': 'props'
-		},
-		'getUser': {
-			'query': `MATCH (u:User{name:$userName, email:$userEmail})
-				RETURN u`,
-			'mapper': 'props'
-		},
-		'createUser': {
-			'query': `CREATE (u:User{name:$userName, email:$userEmail, role:$userRole})
-				RETURN u`,
-			'mapper': 'props'
-		},
-		'createUserNodes': {
-			'query': `CALL apoc.load.json("${scoutsJsonPath}") YIELD value
-				UNWIND value.scouts AS scout
-				MERGE(user:User {name: scout.name, email: scout.email})
-				ON CREATE SET user = scout
-				ON MATCH SET user = scout
-				RETURN scout`,
-			'mapper': 'props'
-		},
-		'createUserScoutRelationships': {
-			'query': `MATCH (u:User)
-				UNWIND u.matches AS mnum
-				MATCH (q:Qual{matchNum:mnum})<-[:Schedules]-(e:Event{id:$eventId})
-				WITH u, q
-				MERGE (u)-[:Scouts {station: u.station, submitted: false}]->(q)
-				RETURN u, q`,
-			'mapper': 'userQual'
-		},
-		'getQualsForUser': {
-			'query': `MATCH (u:User)-[r]->(q:Qual)<-[]-(e:Event{id:$eventId})
-				WHERE u.email = $userEmail
-				RETURN q, r`,
-			'mapper': 'qualRel'
-		},
-		'addRobotPhoto': {
-			'query': `MATCH (t:Team {num:$teamNum})
-				CREATE (t)-[:Appears]->(p:RobotPhoto {view:$view, photoData:$photoData, time:$time})
-				RETURN t`,
-			'mapper': 'props'
-		},
-		'getRobotPhotos': {
-			'query': `MATCH (t:Team {num:$teamNum})-[:Appears]->(p:RobotPhoto {view:$view})
-				RETURN p`,
-			'mapper': 'photos'
-		},
-		'getBlueSide': {
-			'query': `MATCH (e:Event {id:$eventId})
-				RETURN e.blueSide`,
-			'mapper': 'property'
-		},
-		'setBlueSide': {
-			'query': `MATCH (e:Event {id:$eventId})
-				SET e.blueSide = $side
-				RETURN e.blueSide`,
-			'mapper': 'property'
-		}
-	};
 	let neoSession = neoDriver.session();
 	let result = await neoSession.run(queries[queryName].query, queryParams);
 	if (queries[queryName].mapper !== undefined)
