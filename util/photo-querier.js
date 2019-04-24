@@ -1,12 +1,13 @@
 "use strict";
 const dbUtils = require('../neo4j/dbUtils');
 const logger = require('./logger');
+const fs = require('fs');
 
 exports.addPhoto = async (teamNum, view, photo) => {
 	await dbUtils.queryDB('addRobotPhoto', {
 		teamNum: teamNum,
 		view: view,
-		photoData: photo,
+		photoURL: photo,
 		time: new Date().getTime()
 	});
 }
@@ -16,5 +17,9 @@ exports.getPhotos = async (teamNum, view) => {
 		teamNum: teamNum,
 		view: view
 	});
-	return res;
+	let arr = [];
+	for (let photo of res) {
+		arr.push(fs.readFileSync(photo, { encoding: 'utf-8' }));
+	}
+	return arr;
 }

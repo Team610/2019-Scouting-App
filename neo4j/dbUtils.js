@@ -143,7 +143,7 @@ const mappers = {
 	photos: (result) => {
 		let arr = [];
 		for (let record of result.records) {
-			arr.push(record.get(0).properties.photoData);
+			arr.push(record.get(0).properties.photoURL);
 		}
 		return arr;
 	}
@@ -195,14 +195,14 @@ const queries = {
 	},
 	'deactivatePrevForms': {
 		'query': `MATCH (t:Team{num:toInteger($teamNum)}) WITH t 
-			MATCH (t)-[p:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId}) 
+			MATCH (t)-[p:Plays {active:true}]->(f:Form{matchNum:$matchNum,eventId:$eventId}) 
 			SET p.active=false 
 			RETURN f`,
 		'mapper': 'props'
 	},
 	'createNewForm': {
 		'query': `MATCH (t:Team{num:toInteger($teamNum)})
-			CREATE (t)-[:Plays {active:true}]->(f:Form{matchNum:toInteger($matchNum),eventId:$eventId})
+			CREATE (t)-[:Plays {active:true}]->(f:Form{matchNum:$matchNum,eventId:$eventId})
 			RETURN ID(f)`,
 		'mapper': 'id'
 	},
@@ -280,7 +280,7 @@ const queries = {
 	},
 	'addRobotPhoto': {
 		'query': `MATCH (t:Team {num:$teamNum})
-			CREATE (t)-[:Appears]->(p:RobotPhoto {view:$view, photoData:$photoData, time:$time})
+			CREATE (t)-[:Appears]->(p:RobotPhoto {view:$view, photoURL:$photoURL, time:$time})
 			RETURN t`,
 		'mapper': 'props'
 	},

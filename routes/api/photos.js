@@ -2,6 +2,9 @@
 let router = require('express').Router();
 const logger = require("../../util/logger");
 const photoQuerier = require('../../util/photo-querier');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 
 const photoViews = [
 	"back",
@@ -48,6 +51,33 @@ router.get('/:team_id/:view', async function (req, res, next) {
 		res.json({
 			success: false
 		});
+	}
+});
+
+router.post('/upload', async function (req, res, next) {
+	try {
+		const teamNum = Number(req.body.teamNum);
+		const view = req.body.view;
+		const fileData = req.body.file;
+		const fileName = req.body.name;
+		const postfix = `${teamNum}_${view}_${fileName}`;
+		let filePath;
+		if (os.type().includes('indows')) {
+			filePath = path.normalize(`${__dirname}\\..\\..\\public\\images\\${postfix}`);
+		} else {
+			filePath = path.normalize(`${__dirname}/../../public/images/${postfix}`);
+		}
+		
+		fs.writeFileSync(filePath, fileData);
+
+		photoQuerier.addPhoto(teamNum, view, filePath);
+		
+		logger.debug(`successfully saved photo for team ${teamNum} at ${filePath}`);
+		res.json({ success: true });
+	} catch (err) {
+		logger.debug(`Unable to submit photo`);
+		logger.debug(err.stack);
+		res.json({ success: false });
 	}
 });
 
