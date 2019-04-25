@@ -14,7 +14,7 @@ router.get('/getEventTeams', async function (req, res, next) {
 	res.json(teams);
 });
 
-router.post('/getNextUserMatch', async function(req, res, next) {
+router.post('/getNextUserMatch', async function (req, res, next) {
 	let nums = await curMatchTeamQuerier.getCurMatchTeam(req.body);
 	logger.debug(`cur match num: ${JSON.stringify(nums)}`);
 	res.json(nums);
@@ -73,6 +73,27 @@ router.post('/createForm', async function (req, res, next) {
 	let result = await matchQuerier.submitMatch(data);
 
 	res.json({ success: result });
+});
+
+router.get('/validate', async function (req, res, next) {
+	logger.debug('Begin validating event.');
+	try {
+		let ans = await eventQuerier.validateEvent();
+		if (!!ans) {
+			res.json({
+				success: true,
+				discrepancies: ans
+			});
+		} else {
+			res.json({
+				success: true
+			})
+		}
+	} catch (err) {
+		logger.debug('Unable to validate event.')
+		logger.debug(err.stack);
+		res.json({success: false});
+	}
 });
 
 module.exports = router;
