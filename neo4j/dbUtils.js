@@ -33,11 +33,26 @@ const mappers = {
 		}
 		//Sort the team list: since teamlist already sorted as strings
 		//If the team number is 3 digits, move them to the beginning
-		let threeCount = 0;
+		let count = 0;
 		for (let i = 0; i < obj.length; i++) {
 			if (obj[i] < 1000) {
-				obj = obj.slice(0, threeCount).concat(obj[i], obj.slice(threeCount, i), obj.slice(i + 1, obj.length));
-				threeCount++;
+				obj = obj.slice(0, count).concat(obj[i], obj.slice(count, i), obj.slice(i + 1, obj.length));
+				count++;
+			}
+		}
+		//Repeat for 2 digits, 1 digit
+		count = 0;
+		for (let i = 0; i < obj.length; i++) {
+			if (obj[i] < 100) {
+				obj = obj.slice(0, count).concat(obj[i], obj.slice(count, i), obj.slice(i + 1, obj.length));
+				count++;
+			}
+		}
+		count = 0;
+		for (let i = 0; i < obj.length; i++) {
+			if (obj[i] < 10) {
+				obj = obj.slice(0, count).concat(obj[i], obj.slice(count, i), obj.slice(i + 1, obj.length));
+				count++;
 			}
 		}
 		return obj;
